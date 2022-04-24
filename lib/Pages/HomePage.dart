@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:guide/Constants/Constants.dart';
 import 'package:guide/Services/ContractAccess.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
@@ -19,12 +20,14 @@ class _HoemPageState extends State<HoemPage> {
   late Future<bool> loaded;
 
   TextEditingController contractAddress = new TextEditingController();
-
+  TextEditingController functionArgument = new TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    balance = connectTOChain(widget.url, widget.privateKey);
+    // balance = connectTOChain(widget.url, widget.privateKey);
+    ethClient = Web3Client(widget.url, Client());
+    balance = connectTOChain(widget.privateKey);
   }
 
   @override
@@ -80,6 +83,22 @@ class _HoemPageState extends State<HoemPage> {
                       );
                     }
                   }),
+              Container(
+                child: Text("Enter addreess"),
+              ),
+              Container(
+                child: TextField(
+                  controller: functionArgument,
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    query("getRole", [
+                      EthereumAddress.fromHex(
+                          "0x7ECcB50df98C318df22AFdFefa2D453F1E536702")
+                    ]);
+                  },
+                  child: Text("Check Role"))
             ],
           ),
         ),
