@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:guide/Services/ContractAccess.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -14,40 +15,16 @@ class HoemPage extends StatefulWidget {
 }
 
 class _HoemPageState extends State<HoemPage> {
-  EtherAmount balance = new EtherAmount.zero();
+  late Future<EtherAmount> balance;
   late Future<bool> loaded;
 
   TextEditingController contractAddress = new TextEditingController();
-
-  Future<DeployedContract> loadContract(
-      {String contractAddress =
-          "0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6"}) async {
-    final abi = await rootBundle.loadString("assets/Guide.json");
-    final contract = DeployedContract(ContractAbi.fromJson(abi, "Guide"),
-        EthereumAddress.fromHex(contractAddress));
-    return contract;
-  }
-
-  Future<bool> connectTOChain() async {
-    // start a client we can use to send transactions
-    final client = Web3Client(widget.url, Client());
-
-    final credentials = EthPrivateKey.fromHex(widget.privateKey);
-    final address = credentials.address;
-
-    print(address.hexEip55);
-    print(await client.getBalance(address));
-    balance = await client.getBalance(address);
-    return true;
-
-    await client.dispose();
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loaded = connectTOChain();
+    balance = connectTOChain(widget.url, widget.privateKey);
   }
 
   @override
@@ -75,9 +52,9 @@ class _HoemPageState extends State<HoemPage> {
                 ),
               ),
               FutureBuilder(
-                  future: loaded,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                  future: balance,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<EtherAmount> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container(
                         child: Text("waiting"),
@@ -95,8 +72,8 @@ class _HoemPageState extends State<HoemPage> {
                               child: Text("Balance"),
                             ),
                             Container(
-                              child: Text(
-                                  "Ether  :" + balance.getInEther.toString()),
+                              child: Text("Ether  :" +
+                                  snapshot.data!.getInEther.toString()),
                             ),
                           ],
                         ),
