@@ -52,7 +52,7 @@ class _ChainSelectionState extends State<ChainSelection> {
                                     ? "HTTP://192.168.0.106:7545"
                                     : chainUrl.text,
                                 privateKey: privateKey.text.length == 0
-                                    ? "B5f676dae41411258554065249081daba3bbe2dca43a7c6e9a01526f17a15c25"
+                                    ? "cda4d846155da77b56b2af250ef2084927a870f71cbd7cbf2b16dc1281a1b7bd"
                                     : privateKey.text)));
                     // TODO login to the link provided
                   },

@@ -19,6 +19,8 @@ class _HoemPageState extends State<HoemPage> {
   late Future<EtherAmount> balance;
   late Future<bool> loaded;
 
+  late Future<List<dynamic>> certificatesIds;
+
   TextEditingController contractAddress = new TextEditingController();
   TextEditingController functionArgument = new TextEditingController();
   @override
@@ -28,6 +30,8 @@ class _HoemPageState extends State<HoemPage> {
     // balance = connectTOChain(widget.url, widget.privateKey);
     ethClient = Web3Client(widget.url, Client());
     balance = connectTOChain(widget.privateKey);
+    certificatesIds = query("getCurrentUserCertificateIDs", [],
+        EthereumAddress.fromHex("0xd430d224465e53013D49679b173d7E2c9f63394e"));
   }
 
   @override
@@ -93,12 +97,51 @@ class _HoemPageState extends State<HoemPage> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    query("getRole", [
-                      EthereumAddress.fromHex(
-                          "0x7ECcB50df98C318df22AFdFefa2D453F1E536702")
-                    ]);
+                    query(
+                        "getRole",
+                        [
+                          EthereumAddress.fromHex(
+                              "0x7d1fbB509D948890007e9cdfBd599e01740f9ba0")
+                        ],
+                        EthereumAddress.fromHex(
+                            "0xd430d224465e53013D49679b173d7E2c9f63394e"));
                   },
-                  child: Text("Check Role"))
+                  child: Text("Check Role")),
+              ElevatedButton(
+                  onPressed: () {
+                    certificatesIds = query(
+                        "getCurrentUserCertificateIDs",
+                        [],
+                        EthereumAddress.fromHex(
+                            "0xd430d224465e53013D49679b173d7E2c9f63394e"));
+                  },
+                  child: Text("get ui")),
+              FutureBuilder(
+                  future: certificatesIds,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none) {
+                      return Container(
+                        child: Text("Load Data"),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Container(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          // itemCount: storesVisible.length,
+                          itemCount: snapshot.data[0].length,
+                          itemBuilder: (_, i) {
+                            return ListTile(
+                              title: Text(
+                                  "Certificate Id : ${snapshot.data[0][i].toString()}"),
+                            );
+                          });
+                    }
+                  })
             ],
           ),
         ),

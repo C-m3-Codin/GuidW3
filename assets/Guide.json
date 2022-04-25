@@ -26,7 +26,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -81,6 +82,83 @@
   {
     "inputs": [
       {
+        "internalType": "int32",
+        "name": "ceri",
+        "type": "int32"
+      }
+    ],
+    "name": "getCertifDebug",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "int32",
+            "name": "certificateId",
+            "type": "int32"
+          },
+          {
+            "internalType": "int256",
+            "name": "certType",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "dateIssue",
+            "type": "int256"
+          },
+          {
+            "internalType": "int256",
+            "name": "dateExpire",
+            "type": "int256"
+          },
+          {
+            "internalType": "address",
+            "name": "issuer",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "issedAgainst",
+            "type": "address"
+          },
+          {
+            "internalType": "address[]",
+            "name": "taggedInstutions",
+            "type": "address[]"
+          },
+          {
+            "internalType": "bool[]",
+            "name": "taggeInstitutionApproved",
+            "type": "bool[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "isPublic",
+            "type": "bool"
+          },
+          {
+            "internalType": "address[]",
+            "name": "accessGranted",
+            "type": "address[]"
+          },
+          {
+            "internalType": "string",
+            "name": "data",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct Guide.Certificate",
+        "name": "cert",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
         "internalType": "int256",
         "name": "certType",
         "type": "int256"
@@ -94,11 +172,6 @@
         "internalType": "int256",
         "name": "dateExpire",
         "type": "int256"
-      },
-      {
-        "internalType": "address",
-        "name": "issuer",
-        "type": "address"
       },
       {
         "internalType": "address",
@@ -189,7 +262,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -283,7 +357,8 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -296,6 +371,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ]

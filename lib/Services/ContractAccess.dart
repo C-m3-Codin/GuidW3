@@ -8,9 +8,9 @@ import 'package:web3dart/web3dart.dart';
 
 Future<DeployedContract> loadContract(
     {String contractAddress =
-        "0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6"}) async {
+        "0x7EF370941e9598c1F8f4C1001F150a94779dc4D7"}) async {
   String abi = await rootBundle.loadString("assets/Guide.json");
-  String contractAddress = "0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6";
+  // String contractAddress = "0x7EF370941e9598c1F8f4C1001F150a94779dc4D7";
 
   DeployedContract contract = DeployedContract(
     ContractAbi.fromJson(abi, "Guide"),
@@ -35,13 +35,27 @@ Future<EtherAmount> connectTOChain(String privateKey) async {
   // await client.dispose();
 }
 
-Future<List<dynamic>> query(String functionName, List<dynamic> args) async {
+Future<List<dynamic>> query(
+    String functionName, List<dynamic> args, EthereumAddress sender) async {
   DeployedContract contract = await loadContract();
   ContractFunction contractFunction = contract.function(functionName);
   print(ethClient);
-  dynamic result = await ethClient.call(
-      contract: contract, function: contractFunction, params: args);
-  print(result.toString());
+  if (args.isEmpty) {
+    print("no args");
+    List<dynamic> result = await ethClient.call(
+        contract: contract,
+        function: contractFunction,
+        params: [],
+        sender: sender);
+    print(result);
 
-  return result;
+    return result;
+  } else {
+    print(args[0]);
+    dynamic result = await ethClient.call(
+        contract: contract, function: contractFunction, params: args);
+    print(result);
+
+    return result;
+  }
 }
