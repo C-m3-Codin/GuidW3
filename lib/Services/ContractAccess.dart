@@ -59,3 +59,19 @@ Future<List<dynamic>> query(
     return result;
   }
 }
+
+Future<List<dynamic>> queryGetCert(
+    String id, EthereumAddress sender, String functionName) async {
+  DeployedContract contract = await loadContract();
+  ContractFunction contractFunction = contract.function(functionName);
+  print(ethClient);
+
+  print("no args");
+  List<dynamic> result = await ethClient.call(
+      contract: contract,
+      function: contractFunction,
+      params: [],
+      sender: sender);
+  print(result);
+  return result;
+}

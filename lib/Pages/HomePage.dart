@@ -136,6 +136,14 @@ class _HoemPageState extends State<HoemPage> {
                           itemCount: snapshot.data[0].length,
                           itemBuilder: (_, i) {
                             return ListTile(
+                              onTap: () {
+                                // TODO get certificate
+                                Future<List<dynamic>> cert = queryGetCert(
+                                    snapshot.data[0][i],
+                                    EthereumAddress.fromHex(
+                                        "0xd430d224465e53013D49679b173d7E2c9f63394e"),
+                                    "getCertificate");
+                              },
                               title: Text(
                                   "Certificate Id : ${snapshot.data[0][i].toString()}"),
                             );
