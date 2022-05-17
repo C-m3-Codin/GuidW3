@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guide/Pages/UserHomePage.dart';
-import 'package:guide/Pages/UserRequestCert.dart';
-import 'package:guide/Pages/chainDeets.dart';
+import 'package:guide/View/HomePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +19,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: const ChainSelection(),
-      home: UserReqCert(),
+      home: HoemPage(
+        url: "url ",
+        privateKey: '',
+      ),
     );
   }
 }

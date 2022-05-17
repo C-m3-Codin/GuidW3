@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guide/Pages/UserRequestsPage.dart';
+import 'package:guide/View/UserRequestsPage.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => UserRequestsPage()));
+                        builder: (context) => const UserRequestsPage()));
               },
             ),
             const TextButton(

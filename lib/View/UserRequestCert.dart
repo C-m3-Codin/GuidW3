@@ -30,7 +30,7 @@ class RequestFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: const [
         TextField(
           decoration: InputDecoration(labelText: 'label'),
         ),
