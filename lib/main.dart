@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guide/Pages/UserHomePage.dart';
+import 'package:guide/Pages/UserRequestCert.dart';
 import 'package:guide/Pages/chainDeets.dart';
 
 void main() {
@@ -13,11 +15,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         primarySwatch: Colors.blue,
       ),
-      home: const ChainSelection(),
+      // home: const ChainSelection(),
+      home: UserReqCert(),
     );
   }
 }
