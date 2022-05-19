@@ -13,7 +13,8 @@ class SmartContractController extends GetxController {
   final String _wsURl = "ws://192.168.0.106:7545";
   final String _privateKey =
       "b5f676dae41411258554065249081daba3bbe2dca43a7c6e9a01526f17a15c25";
-
+  // var  userAddress =  Rx<EthereumAddress>();;
+  final Rx<EthereumAddress?> userAddress = (null as EthereumAddress?).obs;
   late Web3Client _client;
   late String _abiCode;
 
@@ -37,16 +38,21 @@ class SmartContractController extends GetxController {
     await getAbi();
     await getCredentials();
     await getDeployedContract();
+    await getAccountBalance();
   }
 
-  Future<EtherAmount> getAccount() async {
+  Future<EtherAmount> getAccountBalance() async {
     // return _credentials.extractAddress();
     var credentials = EthPrivateKey.fromHex(_privateKey);
+    // credentials.address;
+
+    userAddress.value = credentials.address;
+    print("value of address is ${userAddress} and ${userAddress.value}");
 
 // You can now call rpc methods. This one will query the amount of Ether you own
     return await Web3Client(_rpcUrl.string, Client(), socketConnector: () {
       return IOWebSocketChannel.connect(_wsURl).cast<String>();
-    }).getBalance(await credentials.extractAddress());
+    }).getBalance(credentials.address);
   }
 
   Future<void> getAbi() async {
@@ -66,11 +72,23 @@ class SmartContractController extends GetxController {
 
   Future<void> getDeployedContract() async {
     _contract = DeployedContract(
-        ContractAbi.fromJson(_abiCode, "HelloWorld"), _contractAddress);
+        ContractAbi.fromJson(_abiCode, "Guide"), _contractAddress);
 
     // Extracting the functions, declared in contract.
     // _yourName = _contract.function("yourName");
     // _setName = _contract.function("setName");
     // getName();
+  }
+
+  getRole() async {
+    final sendFunction = _contract.function('getRole');
+    // var a = Transaction.callContract(
+    //     contract: _contract, function: sendFunction, parameters: [userAddress]);
+    List<dynamic> a = await _client.call(
+        contract: _contract,
+        function: _contract.function("getRole"),
+        params: [userAddress.value]);
+    print("get Role result ${a}");
+    // return a;
   }
 }
