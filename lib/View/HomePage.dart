@@ -106,14 +106,16 @@ class _HoemPageState extends State<HoemPage> {
                     onPressed: () {
                       contractController.getRole();
                     },
-                    child: Obx(() =>
-                        contractController.roleRequested == "Requested"
-                            ? Text("Check Role")
+                    child: Obx(() => contractController.roleRequested == "notRq"
+                        ? Text("Check Role")
+                        : contractController.roleRequested == "Requested"
+                            ? CircularProgressIndicator()
                             : Text("${contractController.certIds.value}"))),
 
                 // Text("Check Role")),
                 ElevatedButton(
                     onPressed: () {
+                      contractController.getCertIds();
                       // certificatesIds = query(
                       //     "getCurrentUserCertificateIDs",
                       //     [],
@@ -121,40 +123,41 @@ class _HoemPageState extends State<HoemPage> {
                       //         "0xd430d224465e53013D49679b173d7E2c9f63394e"));
                     },
                     child: const Text("get ui")),
-                // FutureBuilder(
-                //     future: certificatesIds,
-                //     builder: (BuildContext context,
-                //         AsyncSnapshot<dynamic> snapshot) {
-                //       if (snapshot.connectionState == ConnectionState.none) {
-                //         return Container(
-                //           child: const Text("Load Data"),
-                //         );
-                //       } else if (snapshot.connectionState ==
-                //           ConnectionState.waiting) {
-                //         return Container(
-                //           child: const CircularProgressIndicator(),
-                //         );
-                //       } else {
-                //         return ListView.builder(
-                //             shrinkWrap: true,
-                //             // itemCount: storesVisible.length,
-                //             itemCount: snapshot.data[0].length,
-                //             itemBuilder: (_, i) {
-                //               return ListTile(
-                //                 onTap: () {
-                //                   // TODO get certificate
-                //                   Future<List<dynamic>> cert = queryGetCert(
-                //                       snapshot.data[0][i],
-                //                       EthereumAddress.fromHex(
-                //                           "0xd430d224465e53013D49679b173d7E2c9f63394e"),
-                //                       "getCertificate");
-                //                 },
-                //                 title: Text(
-                //                     "Certificate Id : ${snapshot.data[0][i].toString()}"),
-                //               );
-                //             });
-                //       }
-                //     })
+                Expanded(
+                  child: Container(
+                    child: Obx(() => contractController.certRequested.value ==
+                            "notRq"
+                        ? Container(
+                            child: Text("No certs here"),
+                          )
+                        : contractController.certRequested.value == "Requested"
+                            ? Container(
+                                child: Text(
+                                    "Loading ${contractController.certRequested.value}"),
+                              )
+                            : Container(
+                                child: ListView.builder(
+                                    itemCount:
+                                        controller.certIds.value?.first.length,
+                                    itemBuilder: (_, index) {
+                                      return ListTile(
+                                          title: Text(
+                                              "certs ${controller.certIds.value?.first[index]}"));
+                                    }))),
+                  ),
+                )
+
+                //  Container(
+                //                 child: Obx(() => contractController.certRequested == "noRq"
+                //                     ? Container(
+                //                         child: Text("No certs here"),
+                //                       )
+                //                     : contractController.certRequested == "Requested"
+                //                         ? Container(
+                //                             child: Text("Loading"),
+                //                           )
+                //                         : ),
+                //               )
               ],
             ),
           );

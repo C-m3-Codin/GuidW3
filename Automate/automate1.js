@@ -47,7 +47,7 @@ async function getUsersCertIds(acco){
 async function publishCertificates(to,from,data,visibility){
 
     let result = await contract.methods.publishCertificate(121,34123,456,to,[],visibility,data).send({from:from,gas:3000000}).then(console.log);
-    console.log(to + "got certificate from "+from + "    "+ result.gasUsed  );
+    console.log(to + "got certificate from "+from + "    "  );
 }
 
 async function getCertificate(n,from){
@@ -61,15 +61,15 @@ async function getCertificate(n,from){
 
 
 // ?publish cert
-// publishCertificates(accounts[8],accounts[1],"some cert here again 2",false).then((result)=>{
-// console.log(result)
-// }
-// );
+publishCertificates(accounts[8],accounts[1],"some cert here again 2",false).then((result)=>{
+console.log(result)
+}
+);
 
 
 
 
-getUsersCertIds("0xd430d224465e53013D49679b173d7E2c9f63394e")
+// getUsersCertIds("0xd430d224465e53013D49679b173d7E2c9f63394e")
 
 
 

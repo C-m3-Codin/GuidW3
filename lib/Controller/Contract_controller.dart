@@ -10,8 +10,10 @@ import 'package:web_socket_channel/io.dart';
 
 class SmartContractController extends GetxController {
   var roleRequested = "notRq".obs;
-  final _certIds = "notRquested".obs;
+  var certRequested = "notRq".obs;
   Rx<List?> certIds = (null as List<dynamic>?).obs;
+  Rx<List?> role = (null as List<dynamic>?).obs;
+
   // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
   final String _wsURl = "ws://192.168.0.106:7545";
@@ -83,17 +85,23 @@ class SmartContractController extends GetxController {
 
     // print("got result is ${result}");
 
-    certIds.value = result;
+    role.value = result;
     roleRequested.value = "Fetched";
-    print("get Role result ${certIds}");
-    // return certIds;
+    print("get Role result ${result}");
   }
 
-  Future<List<dynamic>> getCertIds() async {
+  getCertIds() async {
+    certRequested.value = "Requested";
     final certIdFun = _contract.function('getCurrentUserCertificateIDs');
-    Future<List<dynamic>> a =
-        _client.call(contract: _contract, function: certIdFun, params: []);
-    print("get Role result ${a}");
-    return a;
+    List<dynamic> a = await _client.call(
+        contract: _contract,
+        function: certIdFun,
+        params: [],
+        sender: EthereumAddress.fromHex(
+            "0xd430d224465e53013D49679b173d7E2c9f63394e"));
+    certIds.value = a;
+    print("got cert ids ${a}");
+
+    certRequested.value = "Fetched";
   }
 }
