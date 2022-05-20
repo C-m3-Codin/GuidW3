@@ -9,10 +9,15 @@ import 'package:http/http.dart';
 import 'package:web_socket_channel/io.dart';
 
 class SmartContractController extends GetxController {
+  var roleRequested = "notRq".obs;
+  final _certIds = "notRquested".obs;
+  Rx<List?> certIds = (null as List<dynamic>?).obs;
+  // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
   final String _wsURl = "ws://192.168.0.106:7545";
   final String _privateKey =
       "b5f676dae41411258554065249081daba3bbe2dca43a7c6e9a01526f17a15c25";
+
   // var  userAddress =  Rx<EthereumAddress>();;
   final Rx<EthereumAddress?> userAddress = (null as EthereumAddress?).obs;
   late Web3Client _client;
@@ -34,7 +39,6 @@ class SmartContractController extends GetxController {
     _client = Web3Client(_rpcUrl.string, Client(), socketConnector: () {
       return IOWebSocketChannel.connect(_wsURl).cast<String>();
     });
-
     await getAbi();
     await getCredentials();
     await getDeployedContract();
@@ -42,14 +46,9 @@ class SmartContractController extends GetxController {
   }
 
   Future<EtherAmount> getAccountBalance() async {
-    // return _credentials.extractAddress();
     var credentials = EthPrivateKey.fromHex(_privateKey);
-    // credentials.address;
-
     userAddress.value = credentials.address;
     print("value of address is ${userAddress} and ${userAddress.value}");
-
-// You can now call rpc methods. This one will query the amount of Ether you own
     return await Web3Client(_rpcUrl.string, Client(), socketConnector: () {
       return IOWebSocketChannel.connect(_wsURl).cast<String>();
     }).getBalance(credentials.address);
@@ -60,8 +59,6 @@ class SmartContractController extends GetxController {
         await rootBundle.loadString("build/contracts/Guide.json");
     var jsonAbi = jsonDecode(abiStringFile);
     _abiCode = jsonEncode(jsonAbi["abi"]);
-    // print(_abiCode);
-
     _contractAddress =
         EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
   }
@@ -73,22 +70,30 @@ class SmartContractController extends GetxController {
   Future<void> getDeployedContract() async {
     _contract = DeployedContract(
         ContractAbi.fromJson(_abiCode, "Guide"), _contractAddress);
-
-    // Extracting the functions, declared in contract.
-    // _yourName = _contract.function("yourName");
-    // _setName = _contract.function("setName");
-    // getName();
   }
 
   getRole() async {
+    roleRequested.value = "Requested";
     final sendFunction = _contract.function('getRole');
-    // var a = Transaction.callContract(
-    //     contract: _contract, function: sendFunction, parameters: [userAddress]);
-    List<dynamic> a = await _client.call(
+    print("called get role and user addr is ${userAddress.value}");
+    var result = (await _client.call(
         contract: _contract,
-        function: _contract.function("getRole"),
-        params: [userAddress.value]);
+        function: sendFunction,
+        params: [userAddress.value]));
+
+    // print("got result is ${result}");
+
+    certIds.value = result;
+    roleRequested.value = "Fetched";
+    print("get Role result ${certIds}");
+    // return certIds;
+  }
+
+  Future<List<dynamic>> getCertIds() async {
+    final certIdFun = _contract.function('getCurrentUserCertificateIDs');
+    Future<List<dynamic>> a =
+        _client.call(contract: _contract, function: certIdFun, params: []);
     print("get Role result ${a}");
-    // return a;
+    return a;
   }
 }

@@ -105,16 +105,13 @@ class _HoemPageState extends State<HoemPage> {
                 ElevatedButton(
                     onPressed: () {
                       contractController.getRole();
-                      // query(
-                      //     "getRole",
-                      //     [
-                      //       EthereumAddress.fromHex(
-                      //           "0x7d1fbB509D948890007e9cdfBd599e01740f9ba0")
-                      //     ],
-                      //     EthereumAddress.fromHex(
-                      //         "0xd430d224465e53013D49679b173d7E2c9f63394e"));
                     },
-                    child: const Text("Check Role")),
+                    child: Obx(() =>
+                        contractController.roleRequested == "Requested"
+                            ? Text("Check Role")
+                            : Text("${contractController.certIds.value}"))),
+
+                // Text("Check Role")),
                 ElevatedButton(
                     onPressed: () {
                       // certificatesIds = query(
