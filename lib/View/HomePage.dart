@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:guide/Controller/ContractAccess.dart';
+import 'package:guide/View/UserHomePage.dart';
 
 import 'package:web3dart/web3dart.dart';
 
@@ -110,7 +111,7 @@ class _HoemPageState extends State<HoemPage> {
                         ? Text("Check Role")
                         : contractController.roleRequested == "Requested"
                             ? CircularProgressIndicator()
-                            : Text("${contractController.certIds.value}"))),
+                            : Text("${contractController.role.value}"))),
 
                 // Text("Check Role")),
                 ElevatedButton(
@@ -141,6 +142,7 @@ class _HoemPageState extends State<HoemPage> {
                                         controller.certIds.value?.first.length,
                                     itemBuilder: (_, index) {
                                       return ListTile(
+                                          onTap: (() => Get.to(UserHomePage())),
                                           title: Text(
                                               "certs ${controller.certIds.value?.first[index]}"));
                                     }))),

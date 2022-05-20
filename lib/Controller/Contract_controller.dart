@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:guide/Model/CertificateModel.dart';
 import 'package:web3dart/web3dart.dart';
 
 import 'package:http/http.dart';
@@ -11,8 +12,10 @@ import 'package:web_socket_channel/io.dart';
 class SmartContractController extends GetxController {
   var roleRequested = "notRq".obs;
   var certRequested = "notRq".obs;
+  var fetchAllCertRequest = "notRq".obs;
   Rx<List?> certIds = (null as List<dynamic>?).obs;
   Rx<List?> role = (null as List<dynamic>?).obs;
+  Rx<List?> certificates = (null as List?).obs;
 
   // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
@@ -97,11 +100,45 @@ class SmartContractController extends GetxController {
         contract: _contract,
         function: certIdFun,
         params: [],
-        sender: EthereumAddress.fromHex(
-            "0xd430d224465e53013D49679b173d7E2c9f63394e"));
+        sender: userAddress.value);
     certIds.value = a;
     print("got cert ids ${a}");
 
     certRequested.value = "Fetched";
+  }
+
+  fetchAllCertificates() async {
+    // List<dynamic> certifactes;
+    fetchAllCertRequest.value = "Requested";
+    final certIdFun = _contract.function('getCertificate');
+    var temp = [];
+
+    print("number of certificates are ${certIds.value!.first.length}");
+    for (int i = 0; i < certIds.value!.first.length; i++) {
+      List<dynamic> a = await _client.call(
+          contract: _contract,
+          function: certIdFun,
+          params: [certIds.value![0][i]],
+          sender: userAddress.value);
+
+        //       int32 certificateId;0
+        // int certType;1
+        // int256 dateIssue;2
+        // int256 dateExpire;3
+        // address issuer;4
+        // address issedAgainst;5
+        // address[] taggedInstutions;6
+        // bool [] taggeInstitutionApproved;7
+        // bool isPublic;8
+        // address[] accessGranted;9
+        // string data;10
+      CertificateModel Certificate =  CertificateModel(accessGranted: a[0][9], certID: a[0][1], date: a[0][10], dateExpire: a[0][3], dateIssue: a[0][2], isPublic: a[0][8], issuedAgainst: a[0][5], issuer: a[0][4], taggeInstitutionApproved: a[0][7], taggedInstutions: a[0][6])
+      print("a fetched ${i} is ${a}");
+      temp?.add(Certificate);
+    }
+    certificates.value = temp;
+    fetchAllCertRequest.value = "fetched";
+    print(
+        " fetched certificate  ${certificates.value?.length} and temp is ${temp?.length}");
   }
 }

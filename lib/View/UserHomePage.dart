@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/View/UserRequestsPage.dart';
+import 'package:web3dart/web3dart.dart';
+import 'package:guide/Model/CertificateModel.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({Key? key}) : super(key: key);
@@ -8,29 +14,32 @@ class UserHomePage extends StatefulWidget {
   _UserHomePageState createState() => _UserHomePageState();
 }
 
-class CertificateList {
-  String certName = 'initial';
-  String certID = 'id initial';
-
-  CertificateList(String certName, String certID) {
-    this.certID = certID;
-    this.certName = certName;
-    print(certID + certName);
-    print(certID);
-  }
-}
-
 class _UserHomePageState extends State<UserHomePage> {
-  List<CertificateList> items = [];
+  late Future<EtherAmount> balance;
+  late Future<bool> loaded;
+
+  late Future<List<dynamic>> certificatesIds;
+
+  TextEditingController contractAddress = TextEditingController();
+  TextEditingController functionArgument = TextEditingController();
+  SmartContractController contractController =
+      Get.put(SmartContractController());
+
+  // List<CertificateList> items = [];
   @override
   void initState() {
     super.initState();
-    items = [
-      CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-      CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-      CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-      CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    ];
+    contractController.fetchAllCertificates();
+    // items = [
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
+    // ];
   }
 
   @override
@@ -52,21 +61,39 @@ class _UserHomePageState extends State<UserHomePage> {
                         builder: (context) => const UserRequestsPage()));
               },
             ),
-            const TextButton(
+            TextButton(
               child: Text('REQUEST A CERTIFICATE'),
-              onPressed: null,
+              onPressed: () {
+                print("pressed");
+                print("role is ${contractController.role}");
+              },
             )
           ],
         ),
-        body: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(items[index].certName),
-              subtitle: Text(items[index].certID),
-              onTap: () {},
-            );
-          },
-        ));
+        body: Obx(() => contractController.fetchAllCertRequest.value == "notRq"
+            ? Container(
+                child: Text(" "),
+              )
+            : contractController.fetchAllCertRequest.value == "Requested"
+                ? Center(child: Container(child: CircularProgressIndicator()))
+                : ListView.builder(
+                    itemCount: contractController.certificates.value?.length,
+                    itemBuilder: (context, index) {
+                      print(
+                          "certificates length after fetch : ${contractController.certificates.value}");
+                      return ListTile(
+                        // leading: Text(),
+                        title: Text(contractController
+                            .certificates.value?[index][0][10]),
+                        subtitle: Text(contractController
+                                .certificates.value?[index]
+                                .toString() ??
+                            "asd"),
+                        onTap: () {
+                          contractController.fetchAllCertificates();
+                        },
+                      );
+                    },
+                  )));
   }
 }

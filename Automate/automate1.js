@@ -6,7 +6,7 @@ let contractAbi = require('../build/contracts/Guide.json').abi
 // contract address 0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6
 let contract = new web3.eth.Contract(contractAbi, "0x23256097B60857005910de7785747730491D32fb")
 // let role  = await
- contract.methods.getRole("0x7d1fbB509D948890007e9cdfBd599e01740f9ba0").call().then(console.log)
+ contract.methods.getRole("0xd430d224465e53013D49679b173d7E2c9f63394e").call().then(console.log)
 
 
 
@@ -61,7 +61,7 @@ async function getCertificate(n,from){
 
 
 // ?publish cert
-publishCertificates(accounts[8],accounts[1],"some cert here again 2",false).then((result)=>{
+publishCertificates(accounts[0],accounts[3],"some cert here again 2",false).then((result)=>{
 console.log(result)
 }
 );
@@ -89,3 +89,4 @@ web3.eth.getBalance(accounts[0]).then((bal)=>console.log("bal :"+bal));
 
 
 
+// createUser()
