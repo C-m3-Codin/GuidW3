@@ -121,20 +121,30 @@ class SmartContractController extends GetxController {
           params: [certIds.value![0][i]],
           sender: userAddress.value);
 
-        //       int32 certificateId;0
-        // int certType;1
-        // int256 dateIssue;2
-        // int256 dateExpire;3
-        // address issuer;4
-        // address issedAgainst;5
-        // address[] taggedInstutions;6
-        // bool [] taggeInstitutionApproved;7
-        // bool isPublic;8
-        // address[] accessGranted;9
-        // string data;10
-      CertificateModel Certificate =  CertificateModel(accessGranted: a[0][9], certID: a[0][1], date: a[0][10], dateExpire: a[0][3], dateIssue: a[0][2], isPublic: a[0][8], issuedAgainst: a[0][5], issuer: a[0][4], taggeInstitutionApproved: a[0][7], taggedInstutions: a[0][6])
+      //       int32 certificateId;0
+      // int certType;1
+      // int256 dateIssue;2
+      // int256 dateExpire;3
+      // address issuer;4
+      // address issedAgainst;5
+      // address[] taggedInstutions;6
+      // bool [] taggeInstitutionApproved;7
+      // bool isPublic;8
+      // address[] accessGranted;9
+      // string data;10
+      CertificateModel Certificate = CertificateModel(
+          accessGranted: a[0][9],
+          certID: a[0][1],
+          date: a[0][10],
+          dateExpire: a[0][3],
+          dateIssue: a[0][2],
+          isPublic: a[0][8],
+          issuedAgainst: a[0][5],
+          issuer: a[0][4],
+          taggeInstitutionApproved: a[0][7],
+          taggedInstutions: a[0][6]);
       print("a fetched ${i} is ${a}");
-      temp?.add(Certificate);
+      temp.add(Certificate);
     }
     certificates.value = temp;
     fetchAllCertRequest.value = "fetched";

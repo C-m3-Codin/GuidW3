@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1082224734766",
+    "project_id": "guid-ba4fd",
+    "storage_bucket": "guid-ba4fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082224734766:android:634ea376c1cb1c9f6ae5bf",
+        "android_client_info": {
+          "package_name": "com.example.guide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082224734766-v2r38ojalajgi59s3hvnt8kck6s3cjeg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1VzNpRagWb7hLOBm7uFuzEPSoTuDUEd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082224734766-v2r38ojalajgi59s3hvnt8kck6s3cjeg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1082224734766-uh6dqh8m7nqlm3lptok10cfcd8vir7ij.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.guide"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
