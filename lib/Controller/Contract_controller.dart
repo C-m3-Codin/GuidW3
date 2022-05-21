@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:guide/Guide.g.dart';
 import 'package:guide/Model/CertificateModel.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -32,6 +33,7 @@ class SmartContractController extends GetxController {
   late Credentials _credentials;
 
   late DeployedContract _contract;
+  late Guide guideAuto;
 
   @override
   void onInit() {
@@ -48,6 +50,7 @@ class SmartContractController extends GetxController {
     await getCredentials();
     await getDeployedContract();
     await getAccountBalance();
+    guideAuto = Guide(address: _contract.address, client: _client);
   }
 
   Future<EtherAmount> getAccountBalance() async {
@@ -78,6 +81,13 @@ class SmartContractController extends GetxController {
   }
 
   getRole() async {
+    roleRequested.value = "Requested";
+    role.value = await guideAuto.getRole(userAddress.value!);
+    roleRequested.value = "Fetched";
+    print("get Role result tadaaaah ${role.value}");
+  }
+
+  getRole1() async {
     roleRequested.value = "Requested";
     final sendFunction = _contract.function('getRole');
     print("called get role and user addr is ${userAddress.value}");

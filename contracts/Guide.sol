@@ -38,9 +38,9 @@ contract Guide {
         address verifier;
     }
 
-    mapping (address=>User) userProfiles;
-    mapping(address=>Institution) institutionProfile;  
-    mapping(int32=>Certificate) certificates;  
+    mapping (address=>User) public userProfiles;
+    mapping(address=>Institution) public institutionProfile;  
+    mapping(int32=>Certificate) public certificates;  
     
     mapping(address => int32[]) certTagRequest;         
 
