@@ -9,10 +9,9 @@ import 'package:web3dart/web3dart.dart';
 import '../Controller/Contract_controller.dart';
 
 class HoemPage extends StatefulWidget {
-  String url;
-  String privateKey;
-  HoemPage({Key? key, required this.url, required this.privateKey})
-      : super(key: key);
+  // String url;
+  // String privateKey;
+  HoemPage({Key? key}) : super(key: key);
 
   @override
   State<HoemPage> createState() => _HoemPageState();

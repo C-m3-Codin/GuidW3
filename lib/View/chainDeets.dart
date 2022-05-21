@@ -48,12 +48,14 @@ class _ChainSelectionState extends State<ChainSelection> {
                         MaterialPageRoute(
                             builder: (context) => HoemPage(
                                 // url: chainUrl.text, privateKey: privateKey.text)),
-                                url: chainUrl.text.isEmpty
-                                    ? "HTTP://192.168.0.106:7545"
-                                    : chainUrl.text,
-                                privateKey: privateKey.text.isEmpty
-                                    ? "cda4d846155da77b56b2af250ef2084927a870f71cbd7cbf2b16dc1281a1b7bd"
-                                    : privateKey.text)));
+                                // url: chainUrl.text.isEmpty
+                                //     ? "HTTP://192.168.0.106:7545"
+                                //     : chainUrl.text,
+                                // privateKey: privateKey.text.isEmpty
+                                //     ? "cda4d846155da77b56b2af250ef2084927a870f71cbd7cbf2b16dc1281a1b7bd"
+                                //     : privateKey.text
+
+                                )));
                     // TODO login to the link provided
                   },
                   child: Container(

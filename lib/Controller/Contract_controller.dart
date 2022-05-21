@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:guide/Constants/Constants.dart';
 import 'package:guide/Guide.g.dart';
 import 'package:guide/Model/CertificateModel.dart';
 import 'package:web3dart/web3dart.dart';
@@ -21,8 +22,7 @@ class SmartContractController extends GetxController {
   // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
   final String _wsURl = "ws://192.168.0.106:7545";
-  final String _privateKey =
-      "b5f676dae41411258554065249081daba3bbe2dca43a7c6e9a01526f17a15c25";
+  final String _privateKey = privateKey;
 
   // var  userAddress =  Rx<EthereumAddress>();;
   final Rx<EthereumAddress?> userAddress = (null as EthereumAddress?).obs;

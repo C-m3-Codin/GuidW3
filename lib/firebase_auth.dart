@@ -3,6 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:guide/Constants/Constants.dart';
+import 'package:guide/View/HomePage.dart';
 import 'package:guide/firebase_options.dart';
 // import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
@@ -93,6 +96,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         _userEmail = user.email;
         print(user.email);
       });
+      getPrivateKey();
     } else {
       setState(() {
         _success = false;
@@ -157,7 +161,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
             ),
             user == null
                 ? Container()
-                : const Center(
+                : Center(
                     child: RaisedButton(
                       onPressed: getPrivateKey,
                       child: Text('GetPrivateKey'),
@@ -280,15 +284,23 @@ class _RegisterEmailSectionState extends State<_RegisterEmailSection> {
   }
 }
 
-getPrivateKey() {
-  FirebaseFirestore.instance
+getPrivateKey() async {
+  DocumentSnapshot doc = await FirebaseFirestore.instance
       .collection('users')
       .doc(_auth.currentUser!.email)
-      .get()
-      .then((DocumentSnapshot documentSnapshot) {
-    if (documentSnapshot.exists) {
-      print(documentSnapshot.get('privateKey'));
-      return documentSnapshot.get('privateKey');
-    }
-  });
+      .get();
+
+  if (doc.exists) {
+    print(doc.get("privateKey"));
+    privateKey = doc.get("privateKey");
+    Get.to(HoemPage());
+  }
+  //     .then((DocumentSnapshot documentSnapshot) {
+  //   if (documentSnapshot.exists) {
+  //     print(documentSnapshot.get('privateKey'));
+  //     return documentSnapshot.get('privateKey');
+  //   }
+  // }
+
+  // );
 }
