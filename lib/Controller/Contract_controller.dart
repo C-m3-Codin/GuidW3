@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:guide/Guide.g.dart';
 import 'package:guide/Model/CertificateModel.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -32,6 +33,7 @@ class SmartContractController extends GetxController {
   late Credentials _credentials;
 
   late DeployedContract _contract;
+  late Guide guideAuto;
 
   @override
   void onInit() {
@@ -48,6 +50,7 @@ class SmartContractController extends GetxController {
     await getCredentials();
     await getDeployedContract();
     await getAccountBalance();
+    guideAuto = Guide(address: _contract.address, client: _client);
   }
 
   Future<EtherAmount> getAccountBalance() async {
@@ -78,6 +81,13 @@ class SmartContractController extends GetxController {
   }
 
   getRole() async {
+    roleRequested.value = "Requested";
+    role.value = await guideAuto.getRole(userAddress.value!);
+    roleRequested.value = "Fetched";
+    print("get Role result tadaaaah ${role.value}");
+  }
+
+  getRole1() async {
     roleRequested.value = "Requested";
     final sendFunction = _contract.function('getRole');
     print("called get role and user addr is ${userAddress.value}");
@@ -121,18 +131,28 @@ class SmartContractController extends GetxController {
           params: [certIds.value![0][i]],
           sender: userAddress.value);
 
-        //       int32 certificateId;0
-        // int certType;1
-        // int256 dateIssue;2
-        // int256 dateExpire;3
-        // address issuer;4
-        // address issedAgainst;5
-        // address[] taggedInstutions;6
-        // bool [] taggeInstitutionApproved;7
-        // bool isPublic;8
-        // address[] accessGranted;9
-        // string data;10
-      CertificateModel Certificate =  CertificateModel(accessGranted: a[0][9], certID: a[0][1], date: a[0][10], dateExpire: a[0][3], dateIssue: a[0][2], isPublic: a[0][8], issuedAgainst: a[0][5], issuer: a[0][4], taggeInstitutionApproved: a[0][7], taggedInstutions: a[0][6])
+      //       int32 certificateId;0
+      // int certType;1
+      // int256 dateIssue;2
+      // int256 dateExpire;3
+      // address issuer;4
+      // address issedAgainst;5
+      // address[] taggedInstutions;6
+      // bool [] taggeInstitutionApproved;7
+      // bool isPublic;8
+      // address[] accessGranted;9
+      // string data;10
+      CertificateModel Certificate = CertificateModel(
+          accessGranted: a[0][9],
+          certID: a[0][1],
+          date: a[0][10],
+          dateExpire: a[0][3],
+          dateIssue: a[0][2],
+          isPublic: a[0][8],
+          issuedAgainst: a[0][5],
+          issuer: a[0][4],
+          taggeInstitutionApproved: a[0][7],
+          taggedInstutions: a[0][6]);
       print("a fetched ${i} is ${a}");
       temp?.add(Certificate);
     }
