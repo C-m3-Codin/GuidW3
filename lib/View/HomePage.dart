@@ -26,7 +26,7 @@ class _HoemPageState extends State<HoemPage> {
   TextEditingController contractAddress = TextEditingController();
   TextEditingController functionArgument = TextEditingController();
   SmartContractController contractController =
-      Get.find<SmartContractController>();
+      Get.put(SmartContractController());
   @override
   void initState() {
     // TODO: implement initState

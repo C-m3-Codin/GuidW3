@@ -294,8 +294,8 @@ getPrivateKey() async {
   if (doc.exists) {
     print(doc.get("privateKey"));
     privateKey = doc.get("privateKey");
-    SmartContractController contractController =
-        Get.put(await SmartContractController());
+    // SmartContractController contractController =
+    //     Get.put(await SmartContractController());
 
     Get.to(HoemPage());
   }
