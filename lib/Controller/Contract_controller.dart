@@ -15,6 +15,7 @@ class SmartContractController extends GetxController {
   var roleRequested = "notRq".obs;
   var certRequested = "notRq".obs;
   var fetchAllCertRequest = "notRq".obs;
+  var isInstituiton = false.obs;
   Rx<List?> certIds = (null as List<dynamic>?).obs;
   Rx<List?> role = (null as List<dynamic>?).obs;
   Rx<List?> certificates = (null as List<Certificates>?).obs;
@@ -50,6 +51,7 @@ class SmartContractController extends GetxController {
     await getCredentials();
     await getDeployedContract();
     await getAccountBalance();
+    await getAccountType();
     guideAuto = Guide(address: _contract.address, client: _client);
   }
 
@@ -133,13 +135,6 @@ class SmartContractController extends GetxController {
           function: sendFunction,
           params: [certIds.value![i]]));
 
-      // await guideAuto.getCertificate(certIds.value![i]);
-
-      // (await _client.call(
-      //     contract: _contract,
-      //     function: sendFunction,
-      //     params: [certIds.value![i]]));
-
       print(a);
       Certificates temp2 = Certificates(a[0]);
       print("a fetched ${i} is ${a}");
@@ -149,5 +144,13 @@ class SmartContractController extends GetxController {
     fetchAllCertRequest.value = "fetched";
     print(
         " fetched certificate  ${certificates.value?.length} and temp is ${temp?.length}");
+  }
+
+  getAccountType() async {
+    ContractFunction _function = _contract.function('isInstitution');
+    var response = await _client.call(
+        contract: _contract, function: _function, params: [userAddress.value]);
+    isInstituiton.value = response[0];
+    print(" is the account Institution ${response}");
   }
 }

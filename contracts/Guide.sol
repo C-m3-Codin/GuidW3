@@ -43,6 +43,7 @@ contract Guide {
     mapping (address=>User) public userProfiles;
     mapping(address=>Institution) public institutionProfile;  
     mapping(int32=>Certificate) public certificates;  
+    mapping(address=>bool) public isInstitution;
     
     mapping(address => int32[]) certTagRequest;         
 
@@ -77,7 +78,9 @@ contract Guide {
 
       User storage newUser = userProfiles[msg.sender];
         newUser.userAddress = msg.sender;
-        newUser.userName = "";  
+        newUser.userName = ""; 
+
+        isInstitution[msg.sender] = false; 
         
         return userProfiles[msg.sender].userAddress;
 
@@ -182,6 +185,8 @@ function getCertifDebug(int32 ceri) public view returns(Certificate memory cert)
         Institution memory book2= Institution(true,role,false,1,issuer);
         institutionProfile[account]=book2;
     }
+
+    isInstitution[account] = true;
     }
 
      function getRole(address account) public view returns (Institution memory){

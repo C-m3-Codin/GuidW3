@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:guide/Controller/ContractAccess.dart';
-import 'package:guide/View/UserHomePage.dart';
+import 'package:guide/View/User/UserHomePage.dart';
 
 import 'package:web3dart/web3dart.dart';
 
@@ -26,7 +26,7 @@ class _HoemPageState extends State<HoemPage> {
   TextEditingController contractAddress = TextEditingController();
   TextEditingController functionArgument = TextEditingController();
   SmartContractController contractController =
-      Get.put(SmartContractController());
+      Get.find<SmartContractController>();
   @override
   void initState() {
     // TODO: implement initState
@@ -53,18 +53,18 @@ class _HoemPageState extends State<HoemPage> {
                     controller: contractAddress,
                   ),
                 ),
-                Container(
-                  child: ElevatedButton(
-                    child: const Text("add contract address"),
-                    onPressed: () {
-                      // loadContract(contractAddress.text);
-                      // loadContract(
-                      //     contractAddress: contractAddress.text.length > 0
-                      //         ? contractAddress.text
-                      //         : "0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6");
-                    },
-                  ),
-                ),
+                // Container(
+                //   child: ElevatedButton(
+                //     child: const Text("add contract address"),
+                //     onPressed: () {
+                //       // loadContract(contractAddress.text);
+                //       // loadContract(
+                //       //     contractAddress: contractAddress.text.length > 0
+                //       //         ? contractAddress.text
+                //       //         : "0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6");
+                //     },
+                //   ),
+                // ),
                 FutureBuilder(
                     future: contractController.getAccountBalance(),
                     builder: (BuildContext context,

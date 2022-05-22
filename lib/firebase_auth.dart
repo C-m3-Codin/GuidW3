@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:guide/Constants/Constants.dart';
+import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/View/HomePage.dart';
 import 'package:guide/firebase_options.dart';
 // import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -293,6 +294,9 @@ getPrivateKey() async {
   if (doc.exists) {
     print(doc.get("privateKey"));
     privateKey = doc.get("privateKey");
+    SmartContractController contractController =
+        Get.put(await SmartContractController());
+
     Get.to(HoemPage());
   }
   //     .then((DocumentSnapshot documentSnapshot) {
