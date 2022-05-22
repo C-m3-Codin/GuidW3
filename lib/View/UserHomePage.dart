@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:guide/Controller/Contract_controller.dart';
+import 'package:guide/View/CertificatePage.dart';
 import 'package:guide/View/UserRequestsPage.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:guide/Model/CertificateModel.dart';
@@ -30,16 +31,6 @@ class _UserHomePageState extends State<UserHomePage> {
   void initState() {
     super.initState();
     contractController.fetchAllCertificates();
-    // items = [
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    //   CertificateList('DRIVING LICENSE', 'XX 123 ABC 12AB'),
-    // ];
   }
 
   @override
@@ -83,14 +74,17 @@ class _UserHomePageState extends State<UserHomePage> {
                           "certificates length after fetch : ${contractController.certificates.value}");
                       return ListTile(
                         // leading: Text(),
-                        title: Text(contractController
-                            .certificates.value?[index][0][10]),
+                        title: Text(
+                            contractController.certificates.value?[index].data),
                         subtitle: Text(contractController
-                                .certificates.value?[index]
+                                .certificates.value?[index].accessGranted
                                 .toString() ??
                             "asd"),
                         onTap: () {
-                          contractController.fetchAllCertificates();
+                          Get.to(CertificatePage(
+                              certificates: contractController
+                                  .certificates.value?[index]));
+                          // contractController.fetchAllCertificates();
                         },
                       );
                     },

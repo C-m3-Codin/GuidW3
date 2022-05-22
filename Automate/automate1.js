@@ -4,9 +4,9 @@ const web3 = new Web3('http://192.168.0.106:7545')
 let contractAbi = require('../build/contracts/Guide.json').abi
 // console.log(contractAbi)
 // contract address 0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6
-let contract = new web3.eth.Contract(contractAbi, "0x23256097B60857005910de7785747730491D32fb")
+let contract = new web3.eth.Contract(contractAbi, "0x49fEA16C73a541Ab55fEd00810AB229dE32f005F")
 // let role  = await
- contract.methods.getRole("0xd430d224465e53013D49679b173d7E2c9f63394e").call().then(console.log)
+ contract.methods.getRole("0x7d1fbB509D948890007e9cdfBd599e01740f9ba0").call().then(console.log)
 
 
 
@@ -46,12 +46,12 @@ async function getUsersCertIds(acco){
 
 async function publishCertificates(to,from,data,visibility){
 
-    let result = await contract.methods.publishCertificate(121,34123,456,to,[],visibility,data).send({from:from,gas:3000000}).then(console.log);
+    let result = await contract.methods.publishCertificate(121,34123,456,to,["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db"],visibility,data).send({from:from,gas:3000000}).then(console.log);
     console.log(to + "got certificate from "+from + "    "  );
 }
 
 async function getCertificate(n,from){
-     contract.methods.getCertificate(n).call({from:from}).then(console.log).then(console.log);
+     contract.methods.getCertificate(n).call({from:accounts[0]}).then(console.log).then(console.log);
  
     // return result;
 }
@@ -61,7 +61,7 @@ async function getCertificate(n,from){
 
 
 // ?publish cert
-publishCertificates(accounts[0],accounts[3],"some cert here again 2",false).then((result)=>{
+publishCertificates(accounts[0],accounts[3],"Your Birth : {12:23:23}",false).then((result)=>{
 console.log(result)
 }
 );
@@ -69,11 +69,11 @@ console.log(result)
 
 
 
-// getUsersCertIds("0xd430d224465e53013D49679b173d7E2c9f63394e")
+// getUsersCertIds("0x7d1fbB509D948890007e9cdfBd599e01740f9ba0")
 
 
 
-// getCertificate(4,accounts[8])
+getCertificate(1,accounts[8])
 
 web3.eth.getBalance(accounts[0]).then((bal)=>console.log("bal :"+bal));
 

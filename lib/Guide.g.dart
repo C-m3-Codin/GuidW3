@@ -1,6 +1,9 @@
 // Generated code, do not modify. Run `build_runner build` to re-generate!
 // @dart=2.12
 import 'package:web3dart/web3dart.dart' as _i1;
+import 'Model/CertificateModel.dart';
+import 'Model/Institution.dart';
+import 'Model/User.dart';
 
 final _contractAbi = _i1.ContractAbi.fromJson(
     '[{"inputs":[{"internalType":"address[]","name":"mainNodeAddress","type":"address[]"},{"internalType":"string[]","name":"institutionType","type":"string[]"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"int32","name":"","type":"int32"}],"name":"certificates","outputs":[{"internalType":"int32","name":"certificateId","type":"int32"},{"internalType":"int256","name":"certType","type":"int256"},{"internalType":"int256","name":"dateIssue","type":"int256"},{"internalType":"int256","name":"dateExpire","type":"int256"},{"internalType":"address","name":"issuer","type":"address"},{"internalType":"address","name":"issedAgainst","type":"address"},{"internalType":"bool","name":"isPublic","type":"bool"},{"internalType":"string","name":"data","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"institutionProfile","outputs":[{"internalType":"bool","name":"isVerified","type":"bool"},{"internalType":"string","name":"institutionType","type":"string"},{"internalType":"bool","name":"mainInstitution","type":"bool"},{"internalType":"int256","name":"typeInt","type":"int256"},{"internalType":"address","name":"verifier","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userProfiles","outputs":[{"internalType":"address","name":"userAddress","type":"address"},{"internalType":"string","name":"userName","type":"string"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"RegisterUser","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"institutionType","type":"string"}],"name":"RegisterInstitution","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"int32","name":"_certificateId","type":"int32"},{"internalType":"address","name":"_institutionAddress","type":"address"}],"name":"grantCertificateAccessInstitution","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"int32","name":"ceri","type":"int32"}],"name":"getCertifDebug","outputs":[{"components":[{"internalType":"int32","name":"certificateId","type":"int32"},{"internalType":"int256","name":"certType","type":"int256"},{"internalType":"int256","name":"dateIssue","type":"int256"},{"internalType":"int256","name":"dateExpire","type":"int256"},{"internalType":"address","name":"issuer","type":"address"},{"internalType":"address","name":"issedAgainst","type":"address"},{"internalType":"address[]","name":"taggedInstutions","type":"address[]"},{"internalType":"bool[]","name":"taggeInstitutionApproved","type":"bool[]"},{"internalType":"bool","name":"isPublic","type":"bool"},{"internalType":"address[]","name":"accessGranted","type":"address[]"},{"internalType":"string","name":"data","type":"string"}],"internalType":"struct Guide.Certificate","name":"cert","type":"tuple"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"int256","name":"certType","type":"int256"},{"internalType":"int256","name":"dateIssue","type":"int256"},{"internalType":"int256","name":"dateExpire","type":"int256"},{"internalType":"address","name":"issedAgainst","type":"address"},{"internalType":"address[]","name":"taggedInstutions","type":"address[]"},{"internalType":"bool","name":"isPublic","type":"bool"},{"internalType":"string","name":"data","type":"string"}],"name":"publishCertificate","outputs":[{"internalType":"int32","name":"","type":"int32"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"issedAgainst","type":"address"}],"name":"GrantVerification","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getRole","outputs":[{"components":[{"internalType":"bool","name":"isVerified","type":"bool"},{"internalType":"string","name":"institutionType","type":"string"},{"internalType":"bool","name":"mainInstitution","type":"bool"},{"internalType":"int256","name":"typeInt","type":"int256"},{"internalType":"address","name":"verifier","type":"address"}],"internalType":"struct Guide.Institution","name":"","type":"tuple"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[{"internalType":"int32","name":"certificateId","type":"int32"},{"internalType":"address","name":"account","type":"address"}],"name":"grantCertificateaccess","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"int32","name":"certIdCurrent","type":"int32"}],"name":"getCertificate","outputs":[{"components":[{"internalType":"int32","name":"certificateId","type":"int32"},{"internalType":"int256","name":"certType","type":"int256"},{"internalType":"int256","name":"dateIssue","type":"int256"},{"internalType":"int256","name":"dateExpire","type":"int256"},{"internalType":"address","name":"issuer","type":"address"},{"internalType":"address","name":"issedAgainst","type":"address"},{"internalType":"address[]","name":"taggedInstutions","type":"address[]"},{"internalType":"bool[]","name":"taggeInstitutionApproved","type":"bool[]"},{"internalType":"bool","name":"isPublic","type":"bool"},{"internalType":"address[]","name":"accessGranted","type":"address[]"},{"internalType":"string","name":"data","type":"string"}],"internalType":"struct Guide.Certificate","name":"","type":"tuple"}],"stateMutability":"view","type":"function","constant":true},{"inputs":[],"name":"getCurrentUserCertificateIDs","outputs":[{"internalType":"int32[]","name":"","type":"int32[]"}],"stateMutability":"view","type":"function","constant":true}]',
@@ -179,8 +182,10 @@ class Guide extends _i1.GeneratedContract {
       {_i1.BlockNum? atBlock}) async {
     final function = self.abi.functions[13];
     assert(checkSignature(function, 'c0cf2af6'));
-    final params = [certIdCurrent];
-    final response = await read(function, params, atBlock);
+    print("range error${function.name} prior ${certIdCurrent}");
+    BigInt aaa = BigInt.one;
+    final params = [aaa];
+    var response = await read(function, [BigInt.from(1)], atBlock);
     return (response[0] as dynamic);
   }
 
@@ -195,61 +200,4 @@ class Guide extends _i1.GeneratedContract {
     final response = await read(function, params, atBlock);
     return (response[0] as List<dynamic>).cast<BigInt>();
   }
-}
-
-class Certificates {
-  Certificates(List<dynamic> response)
-      : certificateId = (response[0] as BigInt),
-        certType = (response[1] as BigInt),
-        dateIssue = (response[2] as BigInt),
-        dateExpire = (response[3] as BigInt),
-        issuer = (response[4] as _i1.EthereumAddress),
-        issedAgainst = (response[5] as _i1.EthereumAddress),
-        isPublic = (response[6] as bool),
-        data = (response[7] as String);
-
-  final BigInt certificateId;
-
-  final BigInt certType;
-
-  final BigInt dateIssue;
-
-  final BigInt dateExpire;
-
-  final _i1.EthereumAddress issuer;
-
-  final _i1.EthereumAddress issedAgainst;
-
-  final bool isPublic;
-
-  final String data;
-}
-
-class InstitutionProfile {
-  InstitutionProfile(List<dynamic> response)
-      : isVerified = (response[0] as bool),
-        institutionType = (response[1] as String),
-        mainInstitution = (response[2] as bool),
-        typeInt = (response[3] as BigInt),
-        verifier = (response[4] as _i1.EthereumAddress);
-
-  final bool isVerified;
-
-  final String institutionType;
-
-  final bool mainInstitution;
-
-  final BigInt typeInt;
-
-  final _i1.EthereumAddress verifier;
-}
-
-class UserProfiles {
-  UserProfiles(List<dynamic> response)
-      : userAddress = (response[0] as _i1.EthereumAddress),
-        userName = (response[1] as String);
-
-  final _i1.EthereumAddress userAddress;
-
-  final String userName;
 }

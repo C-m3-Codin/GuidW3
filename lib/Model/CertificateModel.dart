@@ -1,42 +1,36 @@
-import 'package:web3dart/credentials.dart';
+import 'package:web3dart/web3dart.dart' as _i1;
 
-class CertificateModel {
-  // String certName = 'initial';
-  String certID = 'id initial';
-  int dateIssue;
-  int dateExpire;
-  EthereumAddress issuer;
-  EthereumAddress issuedAgainst;
-  List<EthereumAddress> taggedInstutions;
-  List<bool> taggeInstitutionApproved;
-  bool isPublic;
-  List<EthereumAddress> accessGranted;
-  String date;
+class Certificates {
+  Certificates(List<dynamic> response)
+      : certificateId = (response[0] as BigInt),
+        certType = (response[1] as BigInt),
+        dateIssue = (response[2] as BigInt),
+        dateExpire = (response[3] as BigInt),
+        issuer = (response[4] as _i1.EthereumAddress),
+        issedAgainst = (response[5] as _i1.EthereumAddress),
+        isPublic = (response[6] as bool),
+        data = (response[7] as String),
+        taggedInstutions = response[8],
+        taggeInstitutionApproved = response[9],
+        accessGranted = response[10];
+  //  address[] taggedInstutions;
+  //       bool [] taggeInstitutionApproved;
+  //        address[] accessGranted;
+  final BigInt certificateId;
+  final List<dynamic> taggedInstutions;
+  final List<dynamic> taggeInstitutionApproved;
+  final List<dynamic> accessGranted;
+  final BigInt certType;
 
-  CertificateModel(
-      {required this.accessGranted,
-      required this.certID,
-      // required this.certName,
-      required this.date,
-      required this.dateExpire,
-      required this.dateIssue,
-      required this.isPublic,
-      required this.issuedAgainst,
-      required this.issuer,
-      required this.taggeInstitutionApproved,
-      required this.taggedInstutions});
+  final BigInt dateIssue;
+
+  final BigInt dateExpire;
+
+  final _i1.EthereumAddress issuer;
+
+  final _i1.EthereumAddress issedAgainst;
+
+  final bool isPublic;
+
+  final String data;
 }
-
-
-
-    // int32 certificateId;
-    //     int certType;
-    //     int256 dateIssue;
-    //     int256 dateExpire;
-    //     address issuer;
-    //     address issedAgainst;
-    //     address[] taggedInstutions;
-    //     bool [] taggeInstitutionApproved;
-    //     bool isPublic;
-    //     address[] accessGranted;
-    //     string data;

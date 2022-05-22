@@ -137,13 +137,12 @@ class _HoemPageState extends State<HoemPage> {
                               )
                             : Container(
                                 child: ListView.builder(
-                                    itemCount:
-                                        controller.certIds.value?.first.length,
+                                    itemCount: controller.certIds.value?.length,
                                     itemBuilder: (_, index) {
                                       return ListTile(
                                           onTap: (() => Get.to(UserHomePage())),
                                           title: Text(
-                                              "certs ${controller.certIds.value?.first[index]}"));
+                                              "certs ${controller.certIds.value?[index]}"));
                                     }))),
                   ),
                 )

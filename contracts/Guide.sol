@@ -22,11 +22,13 @@ contract Guide {
         int256 dateExpire;
         address issuer;
         address issedAgainst;
-        address[] taggedInstutions;
-        bool [] taggeInstitutionApproved;
+       
         bool isPublic;
-        address[] accessGranted;
+       
         string data;
+         address[] taggedInstutions;
+        bool [] taggeInstitutionApproved;
+         address[] accessGranted;
 
     }
 
@@ -132,11 +134,11 @@ function getCertifDebug(int32 ceri) public view returns(Certificate memory cert)
         //  making all approvals false
         // TODO all false except institutionitself
         for(uint256 i = 0; i < taggedInstutions.length; ++i){
-            if(taggedInstutions[i] != msg.sender){
-                newCert.taggeInstitutionApproved[i] = true;
+            if(taggedInstutions[i] == msg.sender){
+                newCert.taggeInstitutionApproved.push(true);
                 continue;
             }
-            newCert.taggeInstitutionApproved[i] = false;
+            newCert.taggeInstitutionApproved.push(false);
         }
 
         userProfiles[issedAgainst].certifatesIds.push(certId);
@@ -153,6 +155,11 @@ function getCertifDebug(int32 ceri) public view returns(Certificate memory cert)
             certTagRequest[instAddress[i]].push(requestedCertId);
         }
 
+    }
+
+    // fetch all certificate verification request made to an institution
+    function fetchCertTagRequest(address _institutionAddress) public view returns(int32[] memory certIds){
+        return certTagRequest[_institutionAddress];
     }
    
     function GrantVerification(address issedAgainst)external restrictInstitutionOnly(msg.sender){   

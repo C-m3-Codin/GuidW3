@@ -17,7 +17,7 @@ class SmartContractController extends GetxController {
   var fetchAllCertRequest = "notRq".obs;
   Rx<List?> certIds = (null as List<dynamic>?).obs;
   Rx<List?> role = (null as List<dynamic>?).obs;
-  Rx<List?> certificates = (null as List?).obs;
+  Rx<List?> certificates = (null as List<Certificates>?).obs;
 
   // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
@@ -103,58 +103,47 @@ class SmartContractController extends GetxController {
     print("get Role result ${result}");
   }
 
+  grantCertificateAccessTo(
+    int certificateId,
+    EthereumAddress to,
+  ) async {
+    String response = await guideAuto.grantCertificateAccessInstitution(
+        BigInt.from(certificateId), to,
+        credentials: _credentials);
+    print(response);
+  }
+
   getCertIds() async {
     certRequested.value = "Requested";
-    final certIdFun = _contract.function('getCurrentUserCertificateIDs');
-    List<dynamic> a = await _client.call(
-        contract: _contract,
-        function: certIdFun,
-        params: [],
-        sender: userAddress.value);
+    List<dynamic> a = await guideAuto.getCurrentUserCertificateIDs();
     certIds.value = a;
     print("got cert ids ${a}");
-
     certRequested.value = "Fetched";
   }
 
   fetchAllCertificates() async {
-    // List<dynamic> certifactes;
     fetchAllCertRequest.value = "Requested";
-    final certIdFun = _contract.function('getCertificate');
-    var temp = [];
-
-    print("number of certificates are ${certIds.value!.first.length}");
-    for (int i = 0; i < certIds.value!.first.length; i++) {
-      List<dynamic> a = await _client.call(
+    List<Certificates> temp = [];
+    final sendFunction = _contract.function('getCertificate');
+    print("number of certificates are ${certIds.value!.length}");
+    for (int i = 0; i < certIds.value!.length; i++) {
+      print("object ${certIds.value![i]}");
+      List<dynamic> a = (await _client.call(
           contract: _contract,
-          function: certIdFun,
-          params: [certIds.value![0][i]],
-          sender: userAddress.value);
+          function: sendFunction,
+          params: [certIds.value![i]]));
 
-      //       int32 certificateId;0
-      // int certType;1
-      // int256 dateIssue;2
-      // int256 dateExpire;3
-      // address issuer;4
-      // address issedAgainst;5
-      // address[] taggedInstutions;6
-      // bool [] taggeInstitutionApproved;7
-      // bool isPublic;8
-      // address[] accessGranted;9
-      // string data;10
-      CertificateModel Certificate = CertificateModel(
-          accessGranted: a[0][9],
-          certID: a[0][1],
-          date: a[0][10],
-          dateExpire: a[0][3],
-          dateIssue: a[0][2],
-          isPublic: a[0][8],
-          issuedAgainst: a[0][5],
-          issuer: a[0][4],
-          taggeInstitutionApproved: a[0][7],
-          taggedInstutions: a[0][6]);
+      // await guideAuto.getCertificate(certIds.value![i]);
+
+      // (await _client.call(
+      //     contract: _contract,
+      //     function: sendFunction,
+      //     params: [certIds.value![i]]));
+
+      print(a);
+      Certificates temp2 = Certificates(a[0]);
       print("a fetched ${i} is ${a}");
-      temp.add(Certificate);
+      temp.add(temp2);
     }
     certificates.value = temp;
     fetchAllCertRequest.value = "fetched";

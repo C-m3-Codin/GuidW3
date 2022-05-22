@@ -4,16 +4,14 @@
 //       string userName;
 //       int32[] certifatesIds;
 //   }
+import 'package:web3dart/web3dart.dart' as _i1;
 
-import 'package:web3dart/credentials.dart';
+class UserProfiles {
+  UserProfiles(List<dynamic> response)
+      : userAddress = (response[0] as _i1.EthereumAddress),
+        userName = (response[1] as String);
 
-class User {
-  EthereumAddress address;
-  String userName;
-  List<int> certificatIds;
+  final _i1.EthereumAddress userAddress;
 
-  User(
-      {required this.address,
-      required this.certificatIds,
-      required this.userName});
+  final String userName;
 }
