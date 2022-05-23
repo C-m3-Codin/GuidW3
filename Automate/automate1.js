@@ -4,7 +4,7 @@ const web3 = new Web3('http://192.168.0.106:7545')
 let contractAbi = require('../build/contracts/Guide.json').abi
 // console.log(contractAbi)
 // contract address 0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6
-let contract = new web3.eth.Contract(contractAbi, "0x49fEA16C73a541Ab55fEd00810AB229dE32f005F")
+let contract = new web3.eth.Contract(contractAbi, "0x00fc0AC571Bdc27c70d4268c79d72d8B179b142F")
 // let role  = await
  contract.methods.getRole("0x7d1fbB509D948890007e9cdfBd599e01740f9ba0").call().then(console.log)
 
@@ -51,7 +51,7 @@ async function publishCertificates(to,from,data,visibility){
 }
 
 async function getCertificate(n,from){
-     contract.methods.getCertificate(n).call({from:accounts[0]}).then(console.log).then(console.log);
+     contract.methods.getCertificate(n).call({from:from}).then(console.log).then(console.log);
  
     // return result;
 }
@@ -61,19 +61,19 @@ async function getCertificate(n,from){
 
 
 // ?publish cert
-publishCertificates(accounts[0],accounts[3],"Your Birth : {12:23:23}",false).then((result)=>{
-console.log(result)
-}
-);
+// publishCertificates(accounts[0],accounts[3],"Your Birth : {12:23:23}",false).then((result)=>{
+// console.log(result)
+// }
+// );
 
 
 
 
-// getUsersCertIds("0x7d1fbB509D948890007e9cdfBd599e01740f9ba0")
+getUsersCertIds(accounts[0])
 
 
 
-getCertificate(1,accounts[8])
+// getCertificate(1,accounts[3])
 
 web3.eth.getBalance(accounts[0]).then((bal)=>console.log("bal :"+bal));
 
