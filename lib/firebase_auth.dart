@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:guide/Constants/Constants.dart';
 import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/View/HomePage.dart';
+import 'package:guide/View/User/UserHomePage.dart';
 import 'package:guide/firebase_options.dart';
 // import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
@@ -20,6 +21,8 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  SmartContractController contractController =
+      Get.put(SmartContractController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -292,12 +295,13 @@ getPrivateKey() async {
       .get();
 
   if (doc.exists) {
+    print(" exists docs ");
     print(doc.get("privateKey"));
     privateKey = doc.get("privateKey");
     // SmartContractController contractController =
     //     Get.put(await SmartContractController());
-
     Get.to(HoemPage());
+    // Get.to(HoemPage());
   }
   //     .then((DocumentSnapshot documentSnapshot) {
   //   if (documentSnapshot.exists) {

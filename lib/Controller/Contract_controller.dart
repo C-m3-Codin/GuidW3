@@ -1,5 +1,6 @@
-import 'dart:convert';
 // import 'dart:html';
+
+import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:http/http.dart';
 import 'package:web_socket_channel/io.dart';
 
 class SmartContractController extends GetxController {
+  var loadedAccount = "notRq".obs;
   var roleRequested = "notRq".obs;
   var certRequested = "notRq".obs;
   var fetchAllCertRequest = "notRq".obs;
@@ -23,7 +25,7 @@ class SmartContractController extends GetxController {
   // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
   final String _wsURl = "ws://192.168.0.106:7545";
-  final String _privateKey = privateKey;
+  late final String _privateKey;
 
   // var  userAddress =  Rx<EthereumAddress>();;
   final Rx<EthereumAddress?> userAddress = (null as EthereumAddress?).obs;
@@ -48,11 +50,22 @@ class SmartContractController extends GetxController {
       return IOWebSocketChannel.connect(_wsURl).cast<String>();
     });
     await getAbi();
-    await getCredentials();
     await getDeployedContract();
+    // await getCredentials();
+    // await getAccountBalance();
+    // await getAccountType();
+    // guideAuto = Guide(address: _contract.address, client: _client);
+  }
+
+  linkContractAfterAuth() async {
+    loadedAccount.value = "loading";
+    _privateKey = privateKey;
+    await getCredentials();
     await getAccountBalance();
     await getAccountType();
     guideAuto = Guide(address: _contract.address, client: _client);
+    loadedAccount.value = "loaded";
+    print("loading all of it ${loadedAccount.value}");
   }
 
   Future<EtherAmount> getAccountBalance() async {

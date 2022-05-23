@@ -25,6 +25,7 @@ class _UserHomePageState extends State<UserHomePage> {
   TextEditingController functionArgument = TextEditingController();
   SmartContractController contractController =
       Get.put(SmartContractController());
+  @override
 
   // List<CertificateList> items = [];
   @override
