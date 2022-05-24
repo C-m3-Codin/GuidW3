@@ -11,8 +11,8 @@ import 'package:guide/View/User/UserHomePage.dart';
 import 'package:guide/firebase_options.dart';
 // import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final User? user = _auth.currentUser;
+final FirebaseAuth auth = FirebaseAuth.instance;
+final User? user = auth.currentUser;
 
 class AuthScreen extends StatefulWidget {
   AuthScreen({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ));
                         return;
                       }
-                      await _auth.signOut();
+                      await auth.signOut();
                       final String uid = user!.uid;
                       Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text(uid + ' has successfully signed out.'),
@@ -88,7 +88,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
   String? _userEmail;
 
   void _signInWithEmailAndPassword() async {
-    final User? user = (await _auth.signInWithEmailAndPassword(
+    final User? user = (await auth.signInWithEmailAndPassword(
       email: _emailController.text,
       password: _passwordController.text,
     ))
@@ -207,7 +207,7 @@ class _RegisterEmailSectionState extends State<_RegisterEmailSection> {
   }
 
   void _register() async {
-    final User? user = (await _auth.createUserWithEmailAndPassword(
+    final User? user = (await auth.createUserWithEmailAndPassword(
       email: _emailController.text,
       password: _passwordController.text,
     ))
@@ -291,7 +291,7 @@ class _RegisterEmailSectionState extends State<_RegisterEmailSection> {
 getPrivateKey() async {
   DocumentSnapshot doc = await FirebaseFirestore.instance
       .collection('users')
-      .doc(_auth.currentUser!.email)
+      .doc(auth.currentUser!.email)
       .get();
 
   if (doc.exists) {
