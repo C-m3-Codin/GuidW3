@@ -20,10 +20,13 @@ class _PublishCertificateState extends State<PublishCertificate> {
   final TextEditingController _certificateDataController =
       TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _newTagInstController = TextEditingController();
+
   bool _isPublic = false;
   String _issuedAgainstPublicKey = 'the key of the recepient here';
   DateTime? _dateIssue = DateTime.now();
-  DateTime? _dateExpiry = DateTime.now().add(Duration(days: 365));
+  DateTime? _dateExpiry = DateTime.now().add(const Duration(days: 365));
+  List _taggedInstitutions = ['cyril199897@gmail.com'];
 
   @override
   Widget build(BuildContext context) {
@@ -33,21 +36,84 @@ class _PublishCertificateState extends State<PublishCertificate> {
         padding: const EdgeInsets.all(28.0),
         child: Form(
           key: _publishCertFormKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              publishFormField(_certificateIDController, 'Certificate ID'),
-              issuerField(),
-              issuedAgainstField(),
-              publishFormField(_certTypeController, 'Certificate Type'),
-              certIssueDate(context),
-              certExpiry(context),
-              publishFormField(_certificateDataController, 'DATA'),
-              _isPublicRadio()
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                publishFormField(_certificateIDController, 'Certificate ID'),
+                issuerField(),
+                issuedAgainstField(),
+                publishFormField(_certTypeController, 'Certificate Type'),
+                certIssueDate(context),
+                certExpiry(context),
+                publishFormField(_certificateDataController, 'DATA'),
+                _isPublicRadio(),
+                _tagInstitutions(context),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 24),
+                  child: Center(
+                      child: ElevatedButton(
+                          onPressed: () {}, child: Text('PUBLISH'))),
+                )
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Container _tagInstitutions(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey[800],
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: ExpansionTile(
+          initiallyExpanded: true,
+          title: const Text('Tag Institutions'),
+          trailing: IconButton(
+            icon: const Icon(Icons.add_business),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: TextFormField(
+                        controller: _newTagInstController,
+                        decoration: const InputDecoration(
+                          labelText: 'ID of institution',
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: (() {
+                              Navigator.pop(context);
+                            }),
+                            child: Text('CANCEL')),
+                        TextButton(
+                            onPressed: () {
+                              print(_newTagInstController.text);
+                              setState(() {
+                                _taggedInstitutions
+                                    .add(_newTagInstController.text);
+                              });
+                              _newTagInstController.clear();
+                              Navigator.pop(context);
+                            },
+                            child: const Text('ADD')),
+                      ],
+                    );
+                  });
+            },
+          ),
+          children: _taggedInstitutions
+              .map((e) => ListTile(
+                    title: Text(e),
+                  ))
+              .toList()),
     );
   }
 
@@ -121,10 +187,12 @@ class _PublishCertificateState extends State<PublishCertificate> {
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
         trailing: IconButton(
-            onPressed: () {
-              setState(() {
-                _issuedAgainstPublicKey =
-                    getPublicKeyFromEmail(_issuedAgainstController.text);
+            onPressed: () async {
+              print(await getPublicKeyFromEmail('cyril199897@gmail.com'));
+              getPublicKeyFromEmail(_issuedAgainstController.text).then((key) {
+                setState(() {
+                  _issuedAgainstPublicKey = key;
+                });
               });
             },
             icon: Icon(Icons.check)),
@@ -139,9 +207,7 @@ class _PublishCertificateState extends State<PublishCertificate> {
             return null;
           },
         ),
-        subtitle: Text(auth.currentUser != null
-            ? auth.currentUser!.email!
-            : 'currently signed in user'),
+        subtitle: Text(_issuedAgainstPublicKey),
       ),
     );
   }
@@ -158,9 +224,9 @@ class _PublishCertificateState extends State<PublishCertificate> {
         title: Text(auth.currentUser != null
             ? auth.currentUser!.email!
             : 'currently signed in user'),
-        subtitle: Text(auth.currentUser != null
-            ? getPublicKeyFromEmail(auth.currentUser!.email!)
-            : 'public key of current user'),
+        // subtitle: Text(auth.currentUser != null
+        //     ? getPublicKeyFromEmail(auth.currentUser!.email!)
+        //     : 'public key of current user'),
       ),
     );
   }
