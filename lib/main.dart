@@ -3,7 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:guide/View/HomePage.dart';
 import 'package:guide/View/UserRequestCert.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:guide/View/publishCert.dart';
+import 'package:guide/View/Institution/publishCert.dart';
 import 'package:guide/firebase_auth.dart';
 import 'firebase_options.dart';
 
@@ -22,21 +22,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          accentColor: Colors.red,
-          brightness: Brightness.dark,
-          primaryColor: Colors.amber,
-          buttonTheme: ButtonThemeData(
-            buttonColor: Colors.amber,
-            disabledColor: Colors.grey,
-          )),
-      home: PublishCertificate(),
-      // home: HoemPage(
-      //   url: "url   ",
-      //   privateKey: '',
-      // ),
-    );
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            accentColor: Colors.red,
+            brightness: Brightness.dark,
+            primaryColor: Colors.amber,
+            buttonTheme: ButtonThemeData(
+              buttonColor: Colors.amber,
+              disabledColor: Colors.grey,
+            )),
+        home: AuthScreen()
+        // PublishCertificate(),
+        // home: HoemPage(
+        //   url: "url   ",
+        //   privateKey: '',
+        // ),
+        );
   }
 }

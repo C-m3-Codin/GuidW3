@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guide/firebase_auth.dart';
 import 'package:guide/firestore_functions.dart';
 import 'package:intl/intl.dart';
+import 'package:web3dart/credentials.dart';
 
 class PublishCertificate extends StatefulWidget {
   const PublishCertificate({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class _PublishCertificateState extends State<PublishCertificate> {
   String _issuedAgainstPublicKey = 'the key of the recepient here';
   DateTime? _dateIssue = DateTime.now();
   DateTime? _dateExpiry = DateTime.now().add(const Duration(days: 365));
-  List _taggedInstitutions = ['cyril199897@gmail.com'];
+  List<EthereumAddress> _taggedInstitutions = [];
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _PublishCertificateState extends State<PublishCertificate> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                publishFormField(_certificateIDController, 'Certificate ID'),
+                // publishFormField(_certificateIDController, 'Certificate ID'),
                 issuerField(),
                 issuedAgainstField(),
                 publishFormField(_certTypeController, 'Certificate Type'),
@@ -97,8 +98,8 @@ class _PublishCertificateState extends State<PublishCertificate> {
                             onPressed: () {
                               print(_newTagInstController.text);
                               setState(() {
-                                _taggedInstitutions
-                                    .add(_newTagInstController.text);
+                                _taggedInstitutions.add(EthereumAddress.fromHex(
+                                    _newTagInstController.text.toString()));
                               });
                               _newTagInstController.clear();
                               Navigator.pop(context);
