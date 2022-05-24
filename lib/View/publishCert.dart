@@ -19,7 +19,6 @@ class _PublishCertificateState extends State<PublishCertificate> {
   final TextEditingController _certTypeController = TextEditingController();
   final TextEditingController _certificateDataController =
       TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _newTagInstController = TextEditingController();
 
   bool _isPublic = false;
@@ -40,7 +39,7 @@ class _PublishCertificateState extends State<PublishCertificate> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                publishFormField(_certificateIDController, 'Certificate ID'),
+                // publishFormField(_certificateIDController, 'Certificate ID'),
                 issuerField(),
                 issuedAgainstField(),
                 publishFormField(_certTypeController, 'Certificate Type'),
@@ -50,10 +49,10 @@ class _PublishCertificateState extends State<PublishCertificate> {
                 _isPublicRadio(),
                 _tagInstitutions(context),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 24),
+                  margin: const EdgeInsets.symmetric(vertical: 24),
                   child: Center(
                       child: ElevatedButton(
-                          onPressed: () {}, child: Text('PUBLISH'))),
+                          onPressed: () {}, child: const Text('PUBLISH'))),
                 )
               ],
             ),
