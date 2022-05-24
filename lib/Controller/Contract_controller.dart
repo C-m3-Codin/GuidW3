@@ -18,11 +18,12 @@ class SmartContractController extends GetxController {
   var certRequested = "notRq".obs;
   var fetchAllCertRequest = "notRq".obs;
   var isInstituiton = false.obs;
+  Rx<List?> requestedVerificationIds = (null as List<dynamic>?).obs;
 
   Rx<List?> certIds = (null as List<dynamic>?).obs;
   Rx<List?> role = (null as List<dynamic>?).obs;
   Rx<List?> certificates = (null as List<Certificates>?).obs;
-
+  Rx<List?> certificatesRequestVerification = (null as List<Certificates>?).obs;
   // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
   final String _wsURl = "ws://192.168.0.106:7545";
@@ -127,14 +128,22 @@ class SmartContractController extends GetxController {
     String response = await guideAuto.grantCertificateaccess(certificateId, to,
         credentials: _credentials);
 
-    // String response = await _client.sendTransaction(
-    //     _credentials,
-    //     Transaction.callContract(
-    //         contract: _contract,
-    //         function: ,
-    //         parameters: [BigInt.from(incrementBy)]));
-
     print(response);
+  }
+
+  getRequestedCerts() async {
+// userAddress
+    print("user address the ${userAddress}");
+    // final sendFunction = _contract.function('certTagRequest');
+    print(" got to getRequest Certs ${userAddress}");
+    ContractFunction _function = _contract.function('getCertReqestList');
+    var a = await _client.call(
+        contract: _contract,
+        function: _function,
+        params: [userAddress.value],
+        sender: userAddress.value);
+    requestedVerificationIds.value = a[0];
+    print(" cert ids for request are ${a}");
   }
 
   getCertIds() async {
@@ -153,6 +162,27 @@ class SmartContractController extends GetxController {
     certIds.value = a[0];
     print("got cert ids ${a}");
     certRequested.value = "Fetched";
+  }
+
+  allVerificationRequestedCertificates() async {
+    fetchAllCertRequest.value = "loading";
+    print(" All verifcation Request Cert ${requestedVerificationIds.value}");
+    // certificatesRequestVerification
+    List<Certificates> temp = [];
+    final sendFunction = _contract.function('getCertificate');
+    for (int i = 0; i < requestedVerificationIds.value!.length; i++) {
+      print("object ${requestedVerificationIds.value![i]}");
+      List<dynamic> a = (await _client.call(
+          contract: _contract,
+          function: sendFunction,
+          params: [requestedVerificationIds.value![i]]));
+      print(a);
+      Certificates temp2 = Certificates(a[0]);
+      print("a fetched ${i} is ${a}");
+      temp.add(temp2);
+    }
+    certificatesRequestVerification.value = temp;
+    fetchAllCertRequest.value = "fetched";
   }
 
   fetchAllCertificates() async {
@@ -195,5 +225,35 @@ class SmartContractController extends GetxController {
         function: _contract.function('certificates'),
         params: [certIdCurrent]);
     print("certificate is ${cert}");
+  }
+
+  publishCertificate(
+      BigInt certType,
+      String dateIssue,
+      String dateExpire,
+      EthereumAddress issedAgainst,
+      List<EthereumAddress> taggedInstutions,
+      bool isPublic,
+      String data) async {
+    var a = await guideAuto.publishCertificate(certType, dateIssue, dateExpire,
+        issedAgainst, taggedInstutions, isPublic, data,
+        credentials: _credentials);
+    ContractFunction _function = _contract.function('publishCertificate');
+    // String response = await _client.sendTransaction(
+    //     _credentials,
+    //     Transaction.callContract(
+    //         contract: _contract,
+    //         function: _function,
+    //         parameters: [
+    //           certType,
+    //           dateIssue,
+    //           dateExpire,
+    //           issedAgainst,
+    //           taggedInstutions,
+    //           isPublic,
+    //           data,
+    //         ],
+    //         gasPrice: EtherAmount.inWei(BigInt.from(3000000))));
+    print(a);
   }
 }

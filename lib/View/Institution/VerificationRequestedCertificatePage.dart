@@ -1,0 +1,117 @@
+import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
+import 'package:guide/Controller/Contract_controller.dart';
+import 'package:guide/Model/CertificateModel.dart';
+import 'package:guide/View/User/listCertificateAccess.dart';
+
+class InstitutionCertificatePage extends StatefulWidget {
+  InstitutionCertificatePage({Key? key, required this.certificates})
+      : super(key: key);
+  Certificates certificates;
+  @override
+  _InstitutionCertificatePageState createState() =>
+      _InstitutionCertificatePageState();
+}
+
+class _InstitutionCertificatePageState
+    extends State<InstitutionCertificatePage> {
+  SmartContractController contractController =
+      Get.find<SmartContractController>();
+  List bools = [true, false, true, false];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(actions: [
+        IconButton(
+            onPressed: (() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CertificateAccessList(
+                    certificates: widget.certificates,
+                  ),
+                ),
+              );
+            }),
+            icon: const Icon(Icons.folder_shared))
+      ]),
+      body: ListView(children: [
+        CertificateField(data: 'Data: ${widget.certificates.data}'),
+        CertificateField(data: 'Issuer: ${widget.certificates.issuer}'),
+        CertificateField(
+            data: 'Issued against:  ${widget.certificates.issedAgainst}'),
+        CertificateField(
+            data: 'Date of issue:  ${widget.certificates.dateIssue}'),
+        CertificateField(
+            data: 'Certificate ID:  ${widget.certificates.certificateId}'),
+        CertificateField(
+            data: 'Date of Expiry:  ${widget.certificates.dateExpire}'),
+        CertificateField(
+            data: 'Certificate Type:  ${widget.certificates.certType}'),
+        Row(
+          children: [
+            CertificateField(data: 'isPublic: '),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: widget.certificates.isPublic
+                        ? Colors.green
+                        : Colors.red),
+                onPressed: () {
+                  contractController
+                      .toggleIsPublic(widget.certificates.certificateId);
+                  widget.certificates.isPublic = !widget.certificates.isPublic;
+                  setState(() {});
+                },
+                child: Icon(
+                  Icons.remove_red_eye_outlined,
+                  color: Colors.white,
+                ))
+          ],
+        ),
+        ExpansionTile(
+            title: const Text('Tagged Institutions'),
+            trailing: const Icon(Icons.arrow_downward_rounded),
+            children: [
+              for (var i = 0;
+                  i < widget.certificates.taggeInstitutionApproved.length;
+                  i++)
+                ListTile(
+                  title:
+                      Text(widget.certificates.taggedInstutions[i].toString()),
+                  trailing:
+                      widget.certificates.taggeInstitutionApproved == "true"
+                          ? const Icon(
+                              Icons.verified,
+                              color: Colors.green,
+                            )
+                          : const Icon(
+                              Icons.error,
+                              color: Colors.grey,
+                            ),
+                )
+            ])
+      ]),
+    );
+  }
+}
+
+class CertificateField extends StatelessWidget {
+  final String data;
+  const CertificateField({Key? key, required this.data}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.blue[100],
+      ),
+      padding: EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: Text(
+        data,
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+}

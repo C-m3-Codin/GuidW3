@@ -18,8 +18,8 @@ contract Guide {
     struct Certificate{        
         int32 certificateId;
         int certType;
-        int256 dateIssue;
-        int256 dateExpire;
+        string dateIssue;
+        string dateExpire;
         address issuer;
         address issedAgainst;
        
@@ -45,7 +45,7 @@ contract Guide {
     mapping(int32=>Certificate) public certificates;  
     mapping(address=>bool) public isInstitution;
     
-    mapping(address => int32[]) certTagRequest;         
+    mapping(address => int32[]) public certTagRequest;         
 
     constructor(address[] memory mainNodeAddress,string[] memory institutionType) public {
         certId=0;
@@ -54,6 +54,12 @@ contract Guide {
         for (uint256 i = 0; i < mainNodeAddress.length; ++i) {
              _grantVerification(mainNodeAddress[i],institutionType[i],true,owner);
         }
+    }
+
+
+// fetch certificate ids for verification requested certificates
+      function getCertReqestList(address addr) public returns(  int32[] memory){
+        return certTagRequest[addr];
     }
 
 
@@ -115,9 +121,15 @@ function grantCertificateAccessInstitution(int32 _certificateId,address _institu
 function getCertifDebug(int32 ceri) public view returns(Certificate memory cert){
     return certificates[ceri];
 }
+
+
+
+
+
+
     // publish cer to mapping
     // send requstt to tagged institutions
-    function publishCertificate(int certType,int256 dateIssue,int256 dateExpire,address issedAgainst,address[] memory taggedInstutions,bool isPublic,string memory data)  public returns(int32) {
+    function publishCertificate(int certType,string memory dateIssue,string memory dateExpire,address issedAgainst,address[] memory taggedInstutions,bool isPublic,string memory data)  public returns(int32) {
         // publishCertificate(121,34123,456,accounts[8],[],true,"dam againsome shit here too").send({from:accounts[0],gas:3000000}
         // int32 certId=0;
         certId++;

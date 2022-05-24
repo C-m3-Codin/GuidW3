@@ -4,8 +4,8 @@ class Certificates {
   Certificates(List<dynamic> response)
       : certificateId = (response[0] as BigInt),
         certType = (response[1] as BigInt),
-        dateIssue = (response[2] as BigInt),
-        dateExpire = (response[3] as BigInt),
+        dateIssue = (response[2] as String),
+        dateExpire = (response[3] as String),
         issuer = (response[4] as _i1.EthereumAddress),
         issedAgainst = (response[5] as _i1.EthereumAddress),
         isPublic = (response[6] as bool),
@@ -22,9 +22,9 @@ class Certificates {
   final List<dynamic> accessGranted;
   final BigInt certType;
 
-  final BigInt dateIssue;
+  final String dateIssue;
 
-  final BigInt dateExpire;
+  final String dateExpire;
 
   final _i1.EthereumAddress issuer;
 

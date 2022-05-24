@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
+import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/firebase_auth.dart';
 import 'package:guide/firestore_functions.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +29,8 @@ class _PublishCertificateState extends State<PublishCertificate> {
   DateTime? _dateIssue = DateTime.now();
   DateTime? _dateExpiry = DateTime.now().add(const Duration(days: 365));
   List<EthereumAddress> _taggedInstitutions = [];
-
+  SmartContractController contractController =
+      Get.find<SmartContractController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +56,23 @@ class _PublishCertificateState extends State<PublishCertificate> {
                   margin: const EdgeInsets.symmetric(vertical: 24),
                   child: Center(
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text('PUBLISH'))),
+                          onPressed: () {
+                            contractController.publishCertificate(
+                                BigInt.from(
+                                    int.parse(_certTypeController.text)),
+                                DateFormat('dd/MM/yyyy')
+                                    .format(_dateIssue!)
+                                    .toString(),
+                                DateFormat('dd/MM/yyyy')
+                                    .format(_dateExpiry!)
+                                    .toString(),
+                                EthereumAddress.fromHex(
+                                    _issuedAgainstPublicKey),
+                                _taggedInstitutions,
+                                _isPublic,
+                                _certificateDataController.text);
+                          },
+                          child: const Text('PUBLISH'))),
                 )
               ],
             ),
@@ -111,7 +130,7 @@ class _PublishCertificateState extends State<PublishCertificate> {
           ),
           children: _taggedInstitutions
               .map((e) => ListTile(
-                    title: Text(e),
+                    title: Text(e.toString()),
                   ))
               .toList()),
     );

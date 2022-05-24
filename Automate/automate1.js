@@ -4,11 +4,13 @@ const web3 = new Web3('http://192.168.0.106:7545')
 let contractAbi = require('../build/contracts/Guide.json').abi
 // console.log(contractAbi)
 // contract address 0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6
-let contract = new web3.eth.Contract(contractAbi, "0x077b8A830449C12d789EF0c961fD8d8F31C869F4")
+let contract = new web3.eth.Contract(contractAbi, "0x64B0D233A2BD47B44b7fC48c907DA1a34cdb35Ed")
 // let role  = await
 //  contract.methods.getRole("0x7415B775776bcBd2e4A966E8638427E3Dcaacd56").call().then(console.log)
 
-
+// ["0x7d1fbB509D948890007e9cdfBd599e01740f9ba0",
+//   "0x6f3b60671597f9aC228B3967c208c91bF55F4dBb",
+//   "0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42"],
 
  var accounts=[
     '0x7d1fbB509D948890007e9cdfBd599e01740f9ba0',
@@ -64,21 +66,21 @@ async function getCertificate(n,from){
 
 
 
-// ?publish cert
+// // ?publish cert
 // publishCertificates(accounts[9],accounts[0],"Your Gun License Number :123311",false).then((result)=>{
 // console.log(result)
 // }
 // );
 // publishCertificates(accounts[9],accounts[0],"Your Adhaar  :1458 4456 7874 9987",false).then((result)=>{
-//     console.log(result)
-//     }
-//     );
+// console.log(result)
+// }
+// );
 
-//     publishCertificates(accounts[9],accounts[0],"Your adhaar  :2545",false).then((result)=>{
-//         console.log(result)
-//         }
-//         );
-    
+// publishCertificates(accounts[9],accounts[0],"Your adhaar  :2545",false).then((result)=>{
+// console.log(result)
+// }
+// );
+
 
 
 
@@ -112,3 +114,5 @@ getTaggRequests("0x6f3b60671597f9aC228B3967c208c91bF55F4dBb","0x4B20993Bc481177e
 
 // createUser()
 // getuser()
+
+// getUsersCertIds(accounts[9])

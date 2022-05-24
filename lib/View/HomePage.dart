@@ -161,7 +161,7 @@ class _HoemPageState extends State<HoemPage> {
   }
 
   Container goToInstitutionPage() {
-    contractController.getCertIds();
+    contractController.getRequestedCerts();
     return Container(
       child: ElevatedButton(
           onPressed: () {
