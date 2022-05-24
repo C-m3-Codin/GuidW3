@@ -298,17 +298,7 @@ getPrivateKey() async {
     print(" exists docs ");
     print(doc.get("privateKey"));
     privateKey = doc.get("privateKey");
-    // SmartContractController contractController =
-    //     Get.put(await SmartContractController());
-    Get.to(HoemPage());
-    // Get.to(HoemPage());
-  }
-  //     .then((DocumentSnapshot documentSnapshot) {
-  //   if (documentSnapshot.exists) {
-  //     print(documentSnapshot.get('privateKey'));
-  //     return documentSnapshot.get('privateKey');
-  //   }
-  // }
 
-  // );
+    Get.to(HoemPage());
+  }
 }

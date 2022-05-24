@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:guide/Controller/Contract_controller.dart';
-import 'package:guide/View/User/CertificatePage.dart';
+import 'package:guide/View/User/CertificateAccess.dart';
+
 import 'package:guide/View/UserRequestsPage.dart';
+import 'package:guide/View/User/showCertificate.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:guide/Model/CertificateModel.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({Key? key}) : super(key: key);
@@ -85,7 +86,6 @@ class _UserHomePageState extends State<UserHomePage> {
                           Get.to(CertificatePage(
                               certificates: contractController
                                   .certificates.value?[index]));
-                          // contractController.fetchAllCertificates();
                         },
                       );
                     },

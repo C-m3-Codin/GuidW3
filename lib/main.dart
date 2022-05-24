@@ -24,9 +24,13 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        primarySwatch: Colors.blue,
-      ),
+          accentColor: Colors.red,
+          brightness: Brightness.dark,
+          primaryColor: Colors.amber,
+          buttonTheme: ButtonThemeData(
+            buttonColor: Colors.amber,
+            disabledColor: Colors.grey,
+          )),
       home: AuthScreen(),
       // home: HoemPage(
       //   url: "url   ",

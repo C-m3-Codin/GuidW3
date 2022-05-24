@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/Model/CertificateModel.dart';
+import 'package:guide/View/User/CertificateAccess.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:get/get.dart';
 
@@ -39,6 +40,11 @@ class _CertificatePageState extends State<CertificatePage> {
                         itemCount: widget.certificates.accessGranted.length,
                         itemBuilder: (_, index) {
                           return ListTile(
+                              onTap: () {
+                                Get.to(CertificateAccessList(
+                                  certificates: widget.certificates,
+                                ));
+                              },
                               title: Text(
                                   "${widget.certificates.accessGranted[index]}"));
                         })),

@@ -147,11 +147,13 @@ class _HoemPageState extends State<HoemPage> {
   }
 
   Container goToUserPage() {
+    contractController.getCertIds();
     return Container(
       child: ElevatedButton(
           onPressed: () {
             print(
                 "ther profile is an Inst? ${contractController.isInstituiton}");
+            Get.to(UserHomePage());
           },
           child: Text("Go to User page")),
     );

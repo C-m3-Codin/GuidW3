@@ -18,6 +18,7 @@ class SmartContractController extends GetxController {
   var certRequested = "notRq".obs;
   var fetchAllCertRequest = "notRq".obs;
   var isInstituiton = false.obs;
+
   Rx<List?> certIds = (null as List<dynamic>?).obs;
   Rx<List?> role = (null as List<dynamic>?).obs;
   Rx<List?> certificates = (null as List<Certificates>?).obs;
@@ -25,7 +26,7 @@ class SmartContractController extends GetxController {
   // var _role = "notRquested".obs;
   final _rpcUrl = "HTTP://192.168.0.106:7545".obs;
   final String _wsURl = "ws://192.168.0.106:7545";
-  late final String _privateKey;
+  late String _privateKey;
 
   // var  userAddress =  Rx<EthereumAddress>();;
   final Rx<EthereumAddress?> userAddress = (null as EthereumAddress?).obs;
@@ -129,9 +130,17 @@ class SmartContractController extends GetxController {
   }
 
   getCertIds() async {
+    print("contract address ${_contractAddress}");
     certRequested.value = "Requested";
-    List<dynamic> a = await guideAuto.getCurrentUserCertificateIDs();
-    certIds.value = a;
+    // guideAuto.getCurrentUserAddress();
+    final sendFunction = _contract.function('getCurrentUserCertificateIDs');
+    var a = await _client.call(
+        contract: _contract,
+        function: sendFunction,
+        params: [],
+        sender: userAddress.value);
+    // List<dynamic> a = await  guideAuto.getCurrentUserCertificateIDs();
+    certIds.value = a[0];
     print("got cert ids ${a}");
     certRequested.value = "Fetched";
   }

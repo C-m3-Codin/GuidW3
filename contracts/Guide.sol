@@ -74,15 +74,15 @@ contract Guide {
     }
     
     // Register User profile with the system
-    function  RegisterUser()public returns(address) {
+    function  RegisterUser(string memory name)public returns(User memory) {
 
       User storage newUser = userProfiles[msg.sender];
         newUser.userAddress = msg.sender;
-        newUser.userName = ""; 
+        newUser.userName = name; 
 
         isInstitution[msg.sender] = false; 
         
-        return userProfiles[msg.sender].userAddress;
+        return userProfiles[msg.sender];
 
     }
 
@@ -229,6 +229,11 @@ function getCertifDebug(int32 ceri) public view returns(Certificate memory cert)
         // return certificates[certId];
     }
 
+    // toggles the public status of a certificate
+    function toggleisPublic(int32 certIdCurrent) public ownerOfCertificate(certIdCurrent,msg.sender){
+        certificates[certIdCurrent].isPublic = !certificates[certIdCurrent].isPublic;
+    }
+
     function getCurrentUserCertificateIDs() public view returns(int32[] memory){
         return userProfiles[msg.sender].certifatesIds;    
         }
@@ -239,6 +244,9 @@ function getCertifDebug(int32 ceri) public view returns(Certificate memory cert)
             "This function is restricted to the contract's owner"
         );
         _;
+    }
+    function getCurrentUserAddress() public view returns(address){
+        return msg.sender;
     }
 
     
