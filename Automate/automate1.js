@@ -50,7 +50,7 @@ async function getUsersCertIds(acco){
 
 async function publishCertificates(to,from,data,visibility){
 
-    let result = await contract.methods.publishCertificate(121,34123,456,to,["0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db"],visibility,data).send({from:from,gas:3000000}).then(console.log);
+    let result = await contract.methods.publishCertificate(121,34123,456,to,["0x6f3b60671597f9aC228B3967c208c91bF55F4dBb"],visibility,data).send({from:from,gas:3000000}).then(console.log);
     console.log(to + "got certificate from "+from + "    "  );
 }
 
@@ -65,18 +65,34 @@ async function getCertificate(n,from){
 
 
 // ?publish cert
-publishCertificates(accounts[9],accounts[0],"Your Driving License Number :12333311",false).then((result)=>{
-console.log(result)
+// publishCertificates(accounts[9],accounts[0],"Your Gun License Number :123311",false).then((result)=>{
+// console.log(result)
+// }
+// );
+// publishCertificates(accounts[9],accounts[0],"Your Adhaar  :1458 4456 7874 9987",false).then((result)=>{
+//     console.log(result)
+//     }
+//     );
+
+//     publishCertificates(accounts[9],accounts[0],"Your adhaar  :2545",false).then((result)=>{
+//         console.log(result)
+//         }
+//         );
+    
+
+
+
+
+async function getTaggRequests(a,from){
+    contract.methods.fetchCertTagRequest(a).call({from:from}).then(console.log).then(console.log);
 }
-);
 
 
+async function getCertificate(n,from){
+    contract.methods.getCertificate(n).call({from:from}).then(console.log).then(console.log);
 
-
-getUsersCertIds(accounts[9])
-
-
-
+   // return result;
+}
 // getCertificate(1,accounts[0])
 
 // web3.eth.getBalance(accounts[0]).then((bal)=>console.log("bal :"+bal));
@@ -91,7 +107,7 @@ getUsersCertIds(accounts[9])
 // address issedAgainst,address[] memory taggedInstutions,bool isPublic,string memory data)
 
 
-
+getTaggRequests("0x6f3b60671597f9aC228B3967c208c91bF55F4dBb","0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db");
 
 
 // createUser()

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:guide/Controller/ContractAccess.dart';
+import 'package:guide/View/Institution/InstHomepage.dart';
 import 'package:guide/View/User/UserHomePage.dart';
 
 import 'package:web3dart/web3dart.dart';
@@ -167,7 +168,7 @@ class _HoemPageState extends State<HoemPage> {
             print(
                 "ther profile is an Inst? ${contractController.isInstituiton}");
 
-            Get.to(UserHomePage());
+            Get.to(InstHome());
           },
           child: Text("Go to Institution page")),
     );

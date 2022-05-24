@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
+import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/Model/CertificateModel.dart';
 import 'package:guide/View/User/listCertificateAccess.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -11,6 +14,8 @@ class CertificatePage extends StatefulWidget {
 }
 
 class _CertificatePageState extends State<CertificatePage> {
+  SmartContractController contractController =
+      Get.find<SmartContractController>();
   List bools = [true, false, true, false];
   @override
   Widget build(BuildContext context) {
@@ -44,28 +49,21 @@ class _CertificatePageState extends State<CertificatePage> {
         Row(
           children: [
             CertificateField(data: 'isPublic: '),
-            ToggleSwitch(
-              minWidth: 90.0,
-              cornerRadius: 20.0,
-              activeBgColors: [
-                [Colors.green[800]!],
-                [Colors.red[800]!]
-              ],
-              activeFgColor: Colors.white,
-              inactiveBgColor: Colors.grey,
-              inactiveFgColor: Colors.white,
-              initialLabelIndex: 1,
-              totalSwitches: 2,
-              labels: ['True', 'False'],
-              radiusStyle: true,
-              onToggle: (index) {
-                print('switched to: $index');
-              },
-            ),
-            Icon(
-              Icons.remove_red_eye_outlined,
-              color: Colors.grey,
-            )
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: widget.certificates.isPublic
+                        ? Colors.green
+                        : Colors.red),
+                onPressed: () {
+                  contractController
+                      .toggleIsPublic(widget.certificates.certificateId);
+                  widget.certificates.isPublic = !widget.certificates.isPublic;
+                  setState(() {});
+                },
+                child: Icon(
+                  Icons.remove_red_eye_outlined,
+                  color: Colors.white,
+                ))
           ],
         ),
         ExpansionTile(

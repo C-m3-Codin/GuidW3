@@ -65,6 +65,7 @@ class SmartContractController extends GetxController {
     await getAccountBalance();
     await getAccountType();
     guideAuto = Guide(address: _contract.address, client: _client);
+
     loadedAccount.value = "loaded";
     print("loading all of it ${loadedAccount.value}");
   }
@@ -120,17 +121,26 @@ class SmartContractController extends GetxController {
   }
 
   grantCertificateAccessTo(
-    int certificateId,
+    BigInt certificateId,
     EthereumAddress to,
   ) async {
-    String response = await guideAuto.grantCertificateAccessInstitution(
-        BigInt.from(certificateId), to,
+    String response = await guideAuto.grantCertificateaccess(certificateId, to,
         credentials: _credentials);
+
+    // String response = await _client.sendTransaction(
+    //     _credentials,
+    //     Transaction.callContract(
+    //         contract: _contract,
+    //         function: ,
+    //         parameters: [BigInt.from(incrementBy)]));
+
     print(response);
   }
 
   getCertIds() async {
-    print("contract address ${_contractAddress}");
+    print(
+        "contract address ${_contractAddress} and userAddress is ${userAddress.value}");
+
     certRequested.value = "Requested";
     // guideAuto.getCurrentUserAddress();
     final sendFunction = _contract.function('getCurrentUserCertificateIDs');
@@ -174,5 +184,16 @@ class SmartContractController extends GetxController {
         contract: _contract, function: _function, params: [userAddress.value]);
     isInstituiton.value = response[0];
     print(" is the account Institution ${response}");
+  }
+
+  toggleIsPublic(BigInt certIdCurrent) async {
+    var a = await guideAuto.toggleisPublic(certIdCurrent,
+        credentials: _credentials);
+    print("is public function ${a}");
+    var cert = await _client.call(
+        contract: _contract,
+        function: _contract.function('certificates'),
+        params: [certIdCurrent]);
+    print("certificate is ${cert}");
   }
 }

@@ -30,7 +30,7 @@ class Certificates {
 
   final _i1.EthereumAddress issedAgainst;
 
-  final bool isPublic;
+  bool isPublic;
 
   final String data;
 }
