@@ -53,7 +53,7 @@ class _CertificatePageState extends State<CertificatePage> {
               ElevatedButton(
                   onPressed: () {
                     contractController.grantCertificateAccessTo(
-                        widget.certificates.certificateId.toInt(),
+                        widget.certificates.certificateId,
                         EthereumAddress.fromHex(
                             "0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42"));
                   },
