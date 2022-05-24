@@ -3,7 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/Model/CertificateModel.dart';
-import 'package:guide/View/User/CertificateAccess.dart';
+import 'package:guide/View/User/listCertificateAccess.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:get/get.dart';
 

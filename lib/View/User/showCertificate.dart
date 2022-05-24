@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guide/Model/CertificateModel.dart';
-import 'package:guide/View/User/CertificateAccess.dart';
+import 'package:guide/View/User/listCertificateAccess.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class CertificatePage extends StatefulWidget {

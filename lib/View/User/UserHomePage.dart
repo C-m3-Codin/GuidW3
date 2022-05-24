@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:guide/Controller/Contract_controller.dart';
-import 'package:guide/View/User/CertificateAccess.dart';
+import 'package:guide/View/User/listCertificateAccess.dart';
 
 import 'package:guide/View/UserRequestsPage.dart';
 import 'package:guide/View/User/showCertificate.dart';
