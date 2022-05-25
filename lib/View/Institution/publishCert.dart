@@ -15,8 +15,8 @@ class PublishCertificate extends StatefulWidget {
 
 class _PublishCertificateState extends State<PublishCertificate> {
   final GlobalKey<FormState> _publishCertFormKey = GlobalKey<FormState>();
-  final TextEditingController _certificateIDController =
-      TextEditingController();
+  // final TextEditingController _certificateIDController =
+  //     TextEditingController();
   final TextEditingController _issuedAgainstController =
       TextEditingController();
   final TextEditingController _certTypeController = TextEditingController();

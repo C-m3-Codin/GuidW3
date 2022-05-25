@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:guide/Model/Institution.dart';
 import 'package:guide/View/HomePage.dart';
+import 'package:guide/View/Institution/institutionProfile.dart';
 import 'package:guide/View/UserRequestCert.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:guide/View/Institution/publishCert.dart';
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
               buttonColor: Colors.amber,
               disabledColor: Colors.grey,
             )),
-        home: AuthScreen()
+        home: const InstitutionProfilePage()
         // PublishCertificate(),
         // home: HoemPage(
         //   url: "url   ",
