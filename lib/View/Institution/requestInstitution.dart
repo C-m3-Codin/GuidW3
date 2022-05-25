@@ -53,6 +53,7 @@ class _RequestVerificationListState extends State<RequestVerificationList> {
       itemBuilder: (context, index) {
         return ListTile(
           // leading: Text(),
+          // trailing: ,
           title: Text(contractController
               .certificatesRequestVerification.value?[index].data),
           subtitle: Text(contractController

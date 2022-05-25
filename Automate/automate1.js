@@ -4,7 +4,7 @@ const web3 = new Web3('http://192.168.0.106:7545')
 let contractAbi = require('../build/contracts/Guide.json').abi
 // console.log(contractAbi)
 // contract address 0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6
-let contract = new web3.eth.Contract(contractAbi, "0x64B0D233A2BD47B44b7fC48c907DA1a34cdb35Ed")
+let contract = new web3.eth.Contract(contractAbi, "0x1d7C4Dce67A6Aa20E331F9DcAd7c1f4EfF801C2D")
 // let role  = await
 //  contract.methods.getRole("0x7415B775776bcBd2e4A966E8638427E3Dcaacd56").call().then(console.log)
 
@@ -33,7 +33,7 @@ async function getAccounts(){
 }
 
 async function createUser(){
-   var user =await contract.methods.RegisterUser("Cyril P").send({from:accounts[9]});
+   var user =await contract.methods.RegisterUser("Cyril Paul").send({from:accounts[9]});
     console.log(accounts[9]+" creted user" + user);
 }
 async function getuser(){
@@ -52,7 +52,7 @@ async function getUsersCertIds(acco){
 
 async function publishCertificates(to,from,data,visibility){
 
-    let result = await contract.methods.publishCertificate(121,34123,456,to,["0x6f3b60671597f9aC228B3967c208c91bF55F4dBb"],visibility,data).send({from:from,gas:3000000}).then(console.log);
+    let result = await contract.methods.publishCertificate(121,34123,456,to,["0x6f3b60671597f9aC228B3967c208c91bF55F4dBb", "0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42"],visibility,data).send({from:from,gas:3000000}).then(console.log);
     console.log(to + "got certificate from "+from + "    "  );
 }
 
@@ -67,16 +67,16 @@ async function getCertificate(n,from){
 
 
 // // ?publish cert
-// publishCertificates(accounts[9],accounts[0],"Your Gun License Number :123311",false).then((result)=>{
+// publishCertificates(accounts[9],accounts[0],"your Medical License :123311",false).then((result)=>{
 // console.log(result)
 // }
 // );
-// publishCertificates(accounts[9],accounts[0],"Your Adhaar  :1458 4456 7874 9987",false).then((result)=>{
+// publishCertificates(accounts[9],accounts[2],"Your Adhaar  :1458 4456 7874 9987",false).then((result)=>{
 // console.log(result)
 // }
 // );
 
-// publishCertificates(accounts[9],accounts[0],"Your adhaar  :2545",false).then((result)=>{
+// publishCertificates(accounts[9],accounts[2],"Your Driving Lic  :2545",false).then((result)=>{
 // console.log(result)
 // }
 // );
@@ -95,7 +95,20 @@ async function getCertificate(n,from){
 
    // return result;
 }
-// getCertificate(1,accounts[0])
+
+async function approveCertificate(n,from){
+    contract.methods.approveCertificate(n,from).send({from:from,gas:3000000}).then(console.log).then(console.log);
+
+   // return result;
+}
+
+
+
+
+
+getCertificate(1,accounts[9])
+
+// approveCertificate(4,"0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42")
 
 // web3.eth.getBalance(accounts[0]).then((bal)=>console.log("bal :"+bal));
 
@@ -109,7 +122,7 @@ async function getCertificate(n,from){
 // address issedAgainst,address[] memory taggedInstutions,bool isPublic,string memory data)
 
 
-getTaggRequests("0x6f3b60671597f9aC228B3967c208c91bF55F4dBb","0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db");
+// getTaggRequests("0x6f3b60671597f9aC228B3967c208c91bF55F4dBb","0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db");
 
 
 // createUser()

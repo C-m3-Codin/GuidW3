@@ -183,7 +183,8 @@ class SmartContractController extends GetxController {
       List<dynamic> a = (await _client.call(
           contract: _contract,
           function: sendFunction,
-          params: [requestedVerificationIds.value![i]]));
+          params: [requestedVerificationIds.value![i]],
+          sender: userAddress.value));
       print(a);
       Certificates temp2 = Certificates(a[0]);
       print("a fetched ${i} is ${a}");
@@ -203,7 +204,8 @@ class SmartContractController extends GetxController {
       List<dynamic> a = (await _client.call(
           contract: _contract,
           function: sendFunction,
-          params: [certIds.value![i]]));
+          params: [certIds.value![i]],
+          sender: userAddress.value));
 
       print(a);
       Certificates temp2 = Certificates(a[0]);
@@ -279,5 +281,10 @@ class SmartContractController extends GetxController {
     print(" institution profile = ${v.isVerified}");
     viewInstitutionProfile.value = v;
     viewProfileRequest.value = "lodaed";
+  }
+
+  approveCertificate(EthereumAddress address, BigInt certNumber) async {
+    await guideAuto.approveCertificate(certNumber, address,
+        credentials: _credentials);
   }
 }

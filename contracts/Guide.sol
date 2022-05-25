@@ -155,6 +155,9 @@ function getCertifDebug(int32 ceri) public view returns(Certificate memory cert)
             }
             newCert.taggeInstitutionApproved.push(false);
         }
+         for(uint256 i = 0; i < taggedInstutions.length; ++i){
+             newCert.accessGranted.push(taggedInstutions[i]);
+         }
 
         userProfiles[issedAgainst].certifatesIds.push(certId);
         requestCertTagVerification(certId,taggedInstutions);
@@ -249,6 +252,18 @@ function getCertifDebug(int32 ceri) public view returns(Certificate memory cert)
     function getCurrentUserCertificateIDs() public view returns(int32[] memory){
         return userProfiles[msg.sender].certifatesIds;    
         }
+
+    // approveal of certificates by tagged institutions
+    // TODO add modifier to confirm its institution is the one who is approving
+    function approveCertificate(int32 certificateId,address institutionTagged) public {
+         for(uint256 i = 0; i < certificates[certificateId].taggedInstutions.length; ++i){
+             if(certificates[certificateId].taggedInstutions[i] == institutionTagged){
+                certificates[certificateId].taggeInstitutionApproved[i] = true;
+                return;
+             }
+
+         }
+    }
     
     modifier restrictedOwner() {
         require(

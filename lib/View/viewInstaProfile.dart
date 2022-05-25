@@ -23,8 +23,7 @@ class _ViewInstProfuleState extends State<ViewInstProfule> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    contractController.getAnyinstitutionProfile(
-        contractController.userAddress.value ?? EthereumAddress.fromHex("0X"));
+    contractController.getAnyinstitutionProfile(widget.address);
   }
 
   SmartContractController contractController =
@@ -37,13 +36,22 @@ class _ViewInstProfuleState extends State<ViewInstProfule> {
           children: [
             Text('View Institutions '),
             Obx(() => Container(
-                  child: contractController
-                          .viewInstitutionProfile.value!.isVerified
-                      ? Icon(
-                          Icons.verified,
-                          color: Colors.green,
+                  child: contractController.viewProfileRequest.value == "notRq"
+                      ? Container(
+                          child: Text(" "),
                         )
-                      : Icon(Icons.error_outline),
+                      : contractController.viewProfileRequest.value ==
+                              "Requested"
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : contractController
+                                  .viewInstitutionProfile.value!.isVerified
+                              ? Icon(
+                                  Icons.verified,
+                                  color: Colors.green,
+                                )
+                              : Icon(Icons.error_outline),
                 ))
           ],
         )

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/Model/CertificateModel.dart';
 import 'package:guide/View/User/listCertificateAccess.dart';
+import 'package:guide/View/viewInstaProfile.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class CertificatePage extends StatefulWidget {
@@ -16,9 +18,11 @@ class CertificatePage extends StatefulWidget {
 class _CertificatePageState extends State<CertificatePage> {
   SmartContractController contractController =
       Get.find<SmartContractController>();
-  List bools = [true, false, true, false];
+  // List bools = [true, false, true, false];
   @override
   Widget build(BuildContext context) {
+    List<String> certificatetype = ["Government", "Medical", "Education"];
+
     return Scaffold(
       appBar: AppBar(actions: [
         IconButton(
@@ -45,7 +49,8 @@ class _CertificatePageState extends State<CertificatePage> {
         CertificateField(
             data: 'Date of Expiry:  ${widget.certificates.dateExpire}'),
         CertificateField(
-            data: 'Certificate Type:  ${widget.certificates.certType}'),
+            data:
+                'Certificate Type:  ${certificatetype[widget.certificates.certType.toInt() % 3]}'),
         Row(
           children: [
             CertificateField(data: 'isPublic: '),
@@ -74,10 +79,14 @@ class _CertificatePageState extends State<CertificatePage> {
                   i < widget.certificates.taggeInstitutionApproved.length;
                   i++)
                 ListTile(
+                  onTap: () {
+                    Get.to(ViewInstProfule(
+                        address: widget.certificates.taggedInstutions[i]));
+                  },
                   title:
                       Text(widget.certificates.taggedInstutions[i].toString()),
                   trailing:
-                      widget.certificates.taggeInstitutionApproved == "true"
+                      widget.certificates.taggeInstitutionApproved[i] == true
                           ? const Icon(
                               Icons.verified,
                               color: Colors.green,

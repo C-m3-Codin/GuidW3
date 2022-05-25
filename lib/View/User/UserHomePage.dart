@@ -25,7 +25,7 @@ class _UserHomePageState extends State<UserHomePage> {
   TextEditingController contractAddress = TextEditingController();
   TextEditingController functionArgument = TextEditingController();
   SmartContractController contractController =
-      Get.put(SmartContractController());
+      Get.find<SmartContractController>();
   @override
 
   // List<CertificateList> items = [];
@@ -39,27 +39,21 @@ class _UserHomePageState extends State<UserHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const ListTile(
-            title: Text('NAME HERE'),
-            subtitle: Text('XX XX XXXX XXXX'),
+          // backgroundColor: Colors.white,
+          title:
+              // Text('Your Certificates '),
+              ListTile(
+            title: Text('Your Certificates '),
+            subtitle: Container(
+              child: Obx(
+                () => (Text(contractController.userAddress.toString())),
+              ),
+            ),
           ),
           actions: [
-            TextButton(
-              child: const Text('REQUESTS'),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserRequestsPage()));
-              },
-            ),
-            TextButton(
-              child: Text('REQUEST A CERTIFICATE'),
-              onPressed: () {
-                print("pressed");
-                print("role is ${contractController.role}");
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(Icons.person),
             )
           ],
         ),
