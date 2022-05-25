@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
               buttonColor: Colors.amber,
               disabledColor: Colors.grey,
             )),
-        home: const InstitutionProfilePage()
+        home: AuthScreen()
+        // const InstitutionProfilePage()
         // PublishCertificate(),
         // home: HoemPage(
         //   url: "url   ",

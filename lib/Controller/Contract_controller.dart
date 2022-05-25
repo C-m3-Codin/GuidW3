@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:guide/Constants/Constants.dart';
 import 'package:guide/Guide.g.dart';
 import 'package:guide/Model/CertificateModel.dart';
+import 'package:guide/Model/Institution.dart';
 import 'package:web3dart/web3dart.dart';
 
 import 'package:http/http.dart';
@@ -16,8 +17,15 @@ class SmartContractController extends GetxController {
   var loadedAccount = "notRq".obs;
   var roleRequested = "notRq".obs;
   var certRequested = "notRq".obs;
+  var profileRequest = "notRq".obs;
+  var viewProfileRequest = "notRq".obs;
   var fetchAllCertRequest = "notRq".obs;
   var isInstituiton = false.obs;
+  //  Rx<InstitutionProfile> instProfile = ;
+  final Rx<InstitutionProfile?> instProfile = (null as InstitutionProfile?).obs;
+  final Rx<InstitutionProfile?> viewInstitutionProfile =
+      (null as InstitutionProfile?).obs;
+  // var instProfile = false.obs;
   Rx<List?> requestedVerificationIds = (null as List<dynamic>?).obs;
 
   Rx<List?> certIds = (null as List<dynamic>?).obs;
@@ -255,5 +263,21 @@ class SmartContractController extends GetxController {
     //         ],
     //         gasPrice: EtherAmount.inWei(BigInt.from(3000000))));
     print(a);
+  }
+
+  geCurrenttinstitutionProfile(EthereumAddress insaddress) async {
+    profileRequest.value = "Requested";
+    InstitutionProfile v = await guideAuto.institutionProfile(insaddress);
+    print(" institution profile = ${v.isVerified}");
+    instProfile.value = v;
+    profileRequest.value = "lodaed";
+  }
+
+  getAnyinstitutionProfile(EthereumAddress insaddress) async {
+    viewProfileRequest.value = "Requested";
+    InstitutionProfile v = await guideAuto.institutionProfile(insaddress);
+    print(" institution profile = ${v.isVerified}");
+    viewInstitutionProfile.value = v;
+    viewProfileRequest.value = "lodaed";
   }
 }

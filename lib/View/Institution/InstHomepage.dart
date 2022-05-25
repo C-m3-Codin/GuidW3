@@ -4,8 +4,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:guide/Controller/Contract_controller.dart';
+import 'package:guide/View/Institution/institutionProfile.dart';
 import 'package:guide/View/Institution/publishCert.dart';
 import 'package:guide/View/Institution/requestInstitution.dart';
+import 'package:web3dart/credentials.dart';
 
 class InstHome extends StatefulWidget {
   const InstHome({Key? key}) : super(key: key);
@@ -15,13 +17,24 @@ class InstHome extends StatefulWidget {
 }
 
 class _InstHomeState extends State<InstHome> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    contractController.geCurrenttinstitutionProfile(
+        contractController.userAddress.value ?? EthereumAddress.fromHex("0X"));
+  }
+
   SmartContractController contractController =
       Get.find<SmartContractController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("Institution Page")),
+        appBar: AppBar(
+          title: Text("Institution Page"),
+          actions: [goToProfile()],
+        ),
         body: Center(
           child: Column(
             children: [
@@ -39,6 +52,17 @@ class _InstHomeState extends State<InstHome> {
           ),
         ),
       ),
+    );
+  }
+
+  Padding goToProfile() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+          onTap: () {
+            Get.to(InstitutionProfilePage());
+          },
+          child: Icon(Icons.person)),
     );
   }
 }

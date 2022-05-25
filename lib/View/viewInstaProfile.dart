@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:guide/Controller/Contract_controller.dart';
-import 'package:guide/View/viewInstaProfile.dart';
+import 'package:guide/View/Institution/institutionProfile.dart';
+import 'package:guide/View/Institution/publishCert.dart';
+import 'package:guide/View/Institution/requestInstitution.dart';
+import 'package:web3dart/credentials.dart';
 
-class InstitutionProfilePage extends StatefulWidget {
-  const InstitutionProfilePage({Key? key}) : super(key: key);
+class ViewInstProfule extends StatefulWidget {
+  EthereumAddress address;
+  ViewInstProfule({Key? key, required this.address}) : super(key: key);
 
   @override
-  _InstitutionProfilePageState createState() => _InstitutionProfilePageState();
+  State<ViewInstProfule> createState() => _ViewInstProfuleState();
 }
 
-class _InstitutionProfilePageState extends State<InstitutionProfilePage> {
+class _ViewInstProfuleState extends State<ViewInstProfule> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    contractController.getAnyinstitutionProfile(
+        contractController.userAddress.value ?? EthereumAddress.fromHex("0X"));
+  }
+
   SmartContractController contractController =
       Get.find<SmartContractController>();
   @override
@@ -20,11 +34,11 @@ class _InstitutionProfilePageState extends State<InstitutionProfilePage> {
     return Scaffold(
         appBar: AppBar(
             title: Row(
-          // mainAxisAlignment: Mai,
           children: [
-            Text('Institution Profile '),
+            Text('View Institutions '),
             Obx(() => Container(
-                  child: contractController.instProfile.value!.isVerified
+                  child: contractController
+                          .viewInstitutionProfile.value!.isVerified
                       ? Icon(
                           Icons.verified,
                           color: Colors.green,
@@ -32,12 +46,16 @@ class _InstitutionProfilePageState extends State<InstitutionProfilePage> {
                       : Icon(Icons.error_outline),
                 ))
           ],
-        )),
-        body: Obx(() => contractController.profileRequest.value == "notRq"
+        )
+
+            //  Text('View Institutions')
+
+            ),
+        body: Obx(() => contractController.viewProfileRequest.value == "notRq"
             ? Container(
                 child: Text(" "),
               )
-            : contractController.profileRequest.value == "Requested"
+            : contractController.viewProfileRequest.value == "Requested"
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
@@ -48,26 +66,24 @@ class _InstitutionProfilePageState extends State<InstitutionProfilePage> {
                       ),
                       InstProfileField(
                           data:
-                              'Verification status: ${contractController.instProfile.value!.isVerified} '),
+                              'Verification status: ${contractController.viewInstitutionProfile.value!.isVerified} '),
                       InstProfileField(
                           data:
-                              ' Institution type: ${contractController.instProfile.value!.institutionType}'),
+                              ' Institution type: ${contractController.viewInstitutionProfile.value!.institutionType}'),
                       InstProfileField(
                           data:
-                              'Main institution: ${contractController.instProfile.value!.mainInstitution}'),
+                              'Main institution: ${contractController.viewInstitutionProfile.value!.mainInstitution}'),
                       InstProfileField(
                           data:
-                              'typeInt: ${contractController.instProfile.value!.typeInt}'),
+                              'typeInt: ${contractController.viewInstitutionProfile.value!.typeInt}'),
                       GestureDetector(
                           onTap: () {
-                            Get.to(ViewInstProfule(
-                              address: contractController
-                                  .instProfile.value!.verifier,
-                            ));
+                            contractController.getAnyinstitutionProfile(
+                                contractController.instProfile.value!.verifier);
                           },
                           child: InstProfileField(
                               data:
-                                  'Verifier: ${contractController.instProfile.value!.verifier}')),
+                                  'Verifier: ${contractController.viewInstitutionProfile.value!.verifier}')),
                     ],
                   )));
   }
