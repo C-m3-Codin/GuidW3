@@ -11,8 +11,16 @@ class SorryNoAccess extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-          child: Lottie.network(
-              "https://assets10.lottiefiles.com/packages/lf20_hykq5eib.json")),
+          child: Column(
+        children: [
+          Lottie.network(
+              "https://assets10.lottiefiles.com/packages/lf20_hykq5eib.json"),
+          Text(
+            "Sorry You dont have access \n Please Request for access",
+            style: TextStyle(fontSize: 20),
+          )
+        ],
+      )),
     );
   }
 }

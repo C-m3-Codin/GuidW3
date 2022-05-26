@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:guide/Controller/ContractAccess.dart';
 import 'package:guide/Model/CertificateModel.dart';
 import 'package:guide/View/Institution/InstHomepage.dart';
+import 'package:guide/View/NoAccess.dart';
 import 'package:guide/View/User/UserHomePage.dart';
 import 'package:guide/View/User/showCertificate.dart';
 import 'package:lottie/lottie.dart';
@@ -69,6 +70,7 @@ class _HoemPageState extends State<HoemPage> {
                           // Navigator.pop(context);
                           print(a);
                           if (a == "You do not have access to Certificate") {
+                            Get.to(SorryNoAccess());
                           } else {
                             print("going to");
                             Get.to(CertificatePage(

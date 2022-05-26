@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/firebase_auth.dart';
@@ -14,6 +15,7 @@ class PublishCertificate extends StatefulWidget {
 }
 
 class _PublishCertificateState extends State<PublishCertificate> {
+  String dropdownValue = "Government";
   final GlobalKey<FormState> _publishCertFormKey = GlobalKey<FormState>();
   // final TextEditingController _certificateIDController =
   //     TextEditingController();
@@ -46,7 +48,7 @@ class _PublishCertificateState extends State<PublishCertificate> {
                 // publishFormField(_certificateIDController, 'Certificate ID'),
                 issuerField(),
                 issuedAgainstField(),
-                publishFormField(_certTypeController, 'Certificate Type'),
+                dropdownCertType("Certificate Type"),
                 certIssueDate(context),
                 certExpiry(context),
                 publishFormField(_certificateDataController, 'DATA'),
@@ -58,8 +60,11 @@ class _PublishCertificateState extends State<PublishCertificate> {
                       child: ElevatedButton(
                           onPressed: () {
                             contractController.publishCertificate(
-                                BigInt.from(
-                                    int.parse(_certTypeController.text)),
+                                BigInt.from([
+                                  'Government',
+                                  'Medical',
+                                  'Education'
+                                ].indexOf(dropdownValue)),
                                 DateFormat('dd/MM/yyyy')
                                     .format(_dateIssue!)
                                     .toString(),
@@ -71,6 +76,8 @@ class _PublishCertificateState extends State<PublishCertificate> {
                                 _taggedInstitutions,
                                 _isPublic,
                                 _certificateDataController.text);
+
+                            Get.back();
                           },
                           child: const Text('PUBLISH'))),
                 )
@@ -291,6 +298,7 @@ class _PublishCertificateState extends State<PublishCertificate> {
 
   Container publishFormField(
       TextEditingController _editingController, String? label) {
+    List<String> certTypes = ['Government', 'Medical', 'Education'];
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -309,5 +317,38 @@ class _PublishCertificateState extends State<PublishCertificate> {
         },
       ),
     );
+  }
+
+  Container dropdownCertType(String? label) {
+    List<String> certTypes = ['Government', 'Medical', 'Education'];
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.grey[800],
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: DropdownButton<String>(
+          value: dropdownValue,
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 16,
+          // style: const TextStyle(color: Colors.deepPurple),
+          underline: Container(
+            height: 2,
+            color: Colors.deepPurpleAccent,
+          ),
+          onChanged: (String? newValue) {
+            setState(() {
+              dropdownValue = newValue!;
+            });
+          },
+          items: <String>['Government', 'Medical', 'Education']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ));
   }
 }

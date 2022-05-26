@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/Model/CertificateModel.dart';
 import 'package:guide/View/User/listCertificateAccess.dart';
+import 'package:guide/View/viewInstaProfile.dart';
+import 'package:lottie/lottie.dart';
 import 'package:web3dart/web3dart.dart';
 
 class InstitutionCertificatePage extends StatefulWidget {
@@ -55,8 +59,17 @@ class _InstitutionCertificatePageState
     List<String> certificatetype = ["Government", "Medical", "Education"];
 
     return ListView(children: [
-      CertificateField(data: 'Data: ${widget.certificates.data}'),
-      CertificateField(data: 'Issuer: ${widget.certificates.issuer}'),
+      Lottie.network(
+          'https://assets7.lottiefiles.com/packages/lf20_tbwqrxnz.json'),
+      widget.certificates.certType.toInt() == 1
+          ? medicalData()
+          : CertificateField(data: 'data: ${widget.certificates.data}'),
+      GestureDetector(
+          onTap: () {
+            Get.to(ViewInstProfule(address: widget.certificates.issuer));
+          },
+          child:
+              CertificateField(data: 'issuer: ${widget.certificates.issuer}')),
       CertificateField(
           data: 'Issued against:  ${widget.certificates.issedAgainst}'),
       CertificateField(
@@ -96,18 +109,40 @@ class _InstitutionCertificatePageState
                 i++)
               ListTile(
                 title: Text(widget.certificates.taggedInstutions[i].toString()),
-                trailing: widget.certificates.taggeInstitutionApproved == "true"
-                    ? const Icon(
-                        Icons.verified,
-                        color: Colors.green,
-                      )
-                    : const Icon(
-                        Icons.error,
-                        color: Colors.grey,
-                      ),
+                trailing:
+                    widget.certificates.taggeInstitutionApproved[i] == true
+                        ? const Icon(
+                            Icons.verified,
+                            color: Colors.green,
+                          )
+                        : const Icon(
+                            Icons.error,
+                            color: Colors.grey,
+                          ),
               )
           ])
     ]);
+  }
+
+  ExpansionTile medicalData() {
+    final body = json.decode(widget.certificates.data);
+    return ExpansionTile(
+        title: const Text('Medical Data'),
+        trailing: const Icon(Icons.arrow_downward_rounded),
+        children: [
+          ListTile(
+            title: Text("name : ${body["patientName"]}"),
+          ),
+          ListTile(
+            title: Text("name : ${body["analysis"]}"),
+          ),
+          ListTile(
+            title: Text("name : ${body["prescribtion"]}"),
+          ),
+          ListTile(
+            title: Text("name : ${body["Comments"]}"),
+          )
+        ]);
   }
 }
 
