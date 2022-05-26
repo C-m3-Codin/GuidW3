@@ -4,7 +4,7 @@ const web3 = new Web3('http://192.168.0.106:7545')
 let contractAbi = require('../build/contracts/Guide.json').abi
 // console.log(contractAbi)
 // contract address 0x45c7DC5c7CB32f989C64cE20269E714dcf0886f6
-let contract = new web3.eth.Contract(contractAbi, "0x1d7C4Dce67A6Aa20E331F9DcAd7c1f4EfF801C2D")
+let contract = new web3.eth.Contract(contractAbi, "0xf665b58De7604eC31718dDf8ab89ed82B7D33cCa")
 // let role  = await
 //  contract.methods.getRole("0x7415B775776bcBd2e4A966E8638427E3Dcaacd56").call().then(console.log)
 
@@ -68,16 +68,16 @@ async function getCertificate(n,from){
 
 
 // // ?publish cert
-publishCertificates(accounts[9],accounts[0],
-    JSON.stringify({patientName:"Cyril",analysis:"cold fever something medical..",prescribtion:"Cetrizine",Comments:"will be well in time"})
-    ,false,1).then((result)=>{
-console.log(result)
-});
-// );
-// publishCertificates(accounts[9],accounts[2],"Your Adhaar  :1458 4456 7874 9987",false).then((result)=>{
+// publishCertificates(accounts[9],accounts[0],
+//     JSON.stringify({patientName:"Cyril",analysis:"Covid Symtopms medical..",prescribtion:" ",Comments:"2 weeks quarantine "})
+//     ,false,1).then((result)=>{
 // console.log(result)
-// }
+// });
 // );
+publishCertificates(accounts[9],accounts[0],JSON.stringify({personName:"Cyril",data:"PanCard .",number:"1122334411 ",Comments:"2 weeks quarantine "}),false,0).then((result)=>{
+console.log(result)
+}
+);
 
 // publishCertificates(accounts[9],accounts[2],"Your Driving Lic  :2545",false).then((result)=>{
 // console.log(result)
@@ -109,7 +109,7 @@ async function approveCertificate(n,from){
 
 
 
-getCertificate(5,accounts[9])
+// getCertificate(5,accounts[9])
 
 // approveCertificate(4,"0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42")
 
