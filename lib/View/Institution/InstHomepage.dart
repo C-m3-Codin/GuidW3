@@ -7,6 +7,7 @@ import 'package:guide/Controller/Contract_controller.dart';
 import 'package:guide/View/Institution/institutionProfile.dart';
 import 'package:guide/View/Institution/publishCert.dart';
 import 'package:guide/View/Institution/requestInstitution.dart';
+import 'package:lottie/lottie.dart';
 import 'package:web3dart/credentials.dart';
 
 class InstHome extends StatefulWidget {
@@ -38,11 +39,13 @@ class _InstHomeState extends State<InstHome> {
         body: Center(
           child: Column(
             children: [
+              Lottie.network(
+                  'https://assets9.lottiefiles.com/private_files/lf30_pn4etzyv.json'),
               ElevatedButton(
                   onPressed: () {
                     Get.to(PublishCertificate());
                   },
-                  child: Text("InstiTution")),
+                  child: Text("Publish Certificate")),
               ElevatedButton(
                   onPressed: () {
                     Get.to(RequestVerificationList());

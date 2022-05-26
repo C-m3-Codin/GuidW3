@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:get/route_manager.dart';
+// import 'package:get/route_manager.dart';
 import 'package:guide/Controller/Contract_controller.dart';
-import 'package:guide/View/Institution/institutionProfile.dart';
-import 'package:guide/View/Institution/publishCert.dart';
-import 'package:guide/View/Institution/requestInstitution.dart';
+
 import 'package:web3dart/credentials.dart';
 
 class ViewInstProfule extends StatefulWidget {
@@ -30,6 +29,7 @@ class _ViewInstProfuleState extends State<ViewInstProfule> {
       Get.find<SmartContractController>();
   @override
   Widget build(BuildContext context) {
+    print("address of  institution ${contractController.userAddress}");
     return Scaffold(
         appBar: AppBar(
             title: Row(
@@ -86,8 +86,12 @@ class _ViewInstProfuleState extends State<ViewInstProfule> {
                               'typeInt: ${contractController.viewInstitutionProfile.value!.typeInt}'),
                       GestureDetector(
                           onTap: () {
-                            contractController.getAnyinstitutionProfile(
-                                contractController.instProfile.value!.verifier);
+                            print("the click on verifier");
+                            contractController.viewProfileRequest.value ==
+                                "notRq";
+                            Get.to(ViewInstProfule(
+                                address: contractController
+                                    .viewInstitutionProfile.value!.verifier));
                           },
                           child: InstProfileField(
                               data:

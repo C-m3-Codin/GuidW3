@@ -11,14 +11,15 @@ import 'package:guide/View/viewInstaProfile.dart';
 import 'package:lottie/lottie.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class CertificatePage extends StatefulWidget {
-  CertificatePage({Key? key, required this.certificates}) : super(key: key);
+class MedicalCertificatePage extends StatefulWidget {
+  MedicalCertificatePage({Key? key, required this.certificates})
+      : super(key: key);
   Certificates certificates;
   @override
-  _CertificatePageState createState() => _CertificatePageState();
+  _MedicalCertificatePageState createState() => _MedicalCertificatePageState();
 }
 
-class _CertificatePageState extends State<CertificatePage> {
+class _MedicalCertificatePageState extends State<MedicalCertificatePage> {
   SmartContractController contractController =
       Get.find<SmartContractController>();
   // List bools = [true, false, true, false];
@@ -44,15 +45,7 @@ class _CertificatePageState extends State<CertificatePage> {
       body: ListView(children: [
         Lottie.network(
             'https://assets7.lottiefiles.com/packages/lf20_tbwqrxnz.json'),
-        widget.certificates.certType.toInt() == 1
-            ? medicalData()
-            : CertificateField(data: 'data: ${widget.certificates.data}'),
-        GestureDetector(
-            onTap: () {
-              Get.to(ViewInstProfule(address: widget.certificates.issuer));
-            },
-            child: CertificateField(
-                data: 'issuer: ${widget.certificates.issuer}')),
+        medicalData(),
         CertificateField(
             data: 'Issued against:  ${widget.certificates.issedAgainst}'),
         CertificateField(
@@ -117,7 +110,7 @@ class _CertificatePageState extends State<CertificatePage> {
   ExpansionTile medicalData() {
     final body = json.decode(widget.certificates.data);
     return ExpansionTile(
-        title: const Text('Medical Data'),
+        title: const Text('Tagged Institutions'),
         trailing: const Icon(Icons.arrow_downward_rounded),
         children: [
           ListTile(

@@ -67,7 +67,7 @@ class _InstitutionCertificatePageState
           data: 'Date of Expiry:  ${widget.certificates.dateExpire}'),
       CertificateField(
           data:
-              'Certificate Type:  ${certificatetype[widget.certificates.certType.toInt()]}'),
+              'Certificate Type:  ${certificatetype[widget.certificates.certType.toInt() % 3]}'),
       Row(
         children: [
           CertificateField(data: 'isPublic: '),

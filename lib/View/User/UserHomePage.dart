@@ -26,6 +26,8 @@ class _UserHomePageState extends State<UserHomePage> {
   TextEditingController functionArgument = TextEditingController();
   SmartContractController contractController =
       Get.find<SmartContractController>();
+  List<String> certType = ["Government", "Medical", "Education"];
+
   @override
 
   // List<CertificateList> items = [];
@@ -70,6 +72,11 @@ class _UserHomePageState extends State<UserHomePage> {
                           "certificates length after fetch : ${contractController.certificates.value}");
                       return ListTile(
                         // leading: Text(),
+                        trailing: Text(certType[contractController
+                                    .certificates.value?[index].certType
+                                    .toInt() %
+                                3]
+                            .toString()),
                         title: Text(
                             contractController.certificates.value?[index].data),
                         subtitle: Text(contractController

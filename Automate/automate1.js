@@ -50,9 +50,10 @@ async function getUsersCertIds(acco){
 
 
 
-async function publishCertificates(to,from,data,visibility){
+async function publishCertificates(to,from,data,visibility,typecert){
 
-    let result = await contract.methods.publishCertificate(121,34123,456,to,["0x6f3b60671597f9aC228B3967c208c91bF55F4dBb", "0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42"],visibility,data).send({from:from,gas:3000000}).then(console.log);
+
+    let result = await contract.methods.publishCertificate(typecert,"21/6/22","21/6/23",to,["0x6f3b60671597f9aC228B3967c208c91bF55F4dBb", "0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42"],visibility,data).send({from:from,gas:3000000}).then(console.log);
     console.log(to + "got certificate from "+from + "    "  );
 }
 
@@ -67,9 +68,11 @@ async function getCertificate(n,from){
 
 
 // // ?publish cert
-// publishCertificates(accounts[9],accounts[0],"your Medical License :123311",false).then((result)=>{
-// console.log(result)
-// }
+publishCertificates(accounts[9],accounts[0],
+    JSON.stringify({patientName:"Cyril",analysis:"cold fever something medical..",prescribtion:"Cetrizine",Comments:"will be well in time"})
+    ,false,1).then((result)=>{
+console.log(result)
+});
 // );
 // publishCertificates(accounts[9],accounts[2],"Your Adhaar  :1458 4456 7874 9987",false).then((result)=>{
 // console.log(result)
@@ -106,7 +109,7 @@ async function approveCertificate(n,from){
 
 
 
-getCertificate(1,accounts[9])
+getCertificate(5,accounts[9])
 
 // approveCertificate(4,"0xC009792C65581FDaEFC6FD5bEFe4B4e3130E9F42")
 

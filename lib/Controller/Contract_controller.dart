@@ -194,6 +194,20 @@ class SmartContractController extends GetxController {
     fetchAllCertRequest.value = "fetched";
   }
 
+  searchCertificate(BigInt certIdtoSearch) async {
+    final sendFunction = _contract.function('getCertificate');
+    try {
+      List<dynamic> a = (await _client.call(
+          contract: _contract,
+          function: sendFunction,
+          params: [certIdtoSearch],
+          sender: userAddress.value));
+      return a;
+    } catch (error) {
+      return "You do not have access to Certificate";
+    }
+  }
+
   fetchAllCertificates() async {
     fetchAllCertRequest.value = "Requested";
     List<Certificates> temp = [];

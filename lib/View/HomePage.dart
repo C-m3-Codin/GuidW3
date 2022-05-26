@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:guide/Controller/ContractAccess.dart';
+import 'package:guide/Model/CertificateModel.dart';
 import 'package:guide/View/Institution/InstHomepage.dart';
 import 'package:guide/View/User/UserHomePage.dart';
+import 'package:guide/View/User/showCertificate.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:web3dart/web3dart.dart';
 
@@ -28,6 +31,8 @@ class _HoemPageState extends State<HoemPage> {
   TextEditingController functionArgument = TextEditingController();
   SmartContractController contractController =
       Get.find<SmartContractController>();
+
+  TextEditingController searchAddress = TextEditingController();
   bool test = true;
   @override
   initState() {
@@ -41,8 +46,48 @@ class _HoemPageState extends State<HoemPage> {
   Widget build(BuildContext context) {
     print("got to HomePage");
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: TextField(
+                    controller: searchAddress,
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: (() {
+                          Navigator.pop(context);
+                          // print(a);
+                        }),
+                        child: Text('CANCEL')),
+                    TextButton(
+                        onPressed: (() async {
+                          var a = await contractController.searchCertificate(
+                              BigInt.from(int.parse(searchAddress.text)));
+                          // Navigator.pop(context);
+                          print(a);
+                          if (a == "You do not have access to Certificate") {
+                          } else {
+                            print("going to");
+                            Get.to(CertificatePage(
+                              certificates: Certificates(a[0]),
+                            ));
+                          }
+                        }),
+                        child: Text('Search')),
+                  ],
+                );
+              });
+        },
+        child: Icon(Icons.search),
+      ),
       body: SafeArea(
-          child: test
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          test
               ? Center(
                   child:
                       Obx(() => (contractController.isInstituiton.value == true
@@ -51,7 +96,9 @@ class _HoemPageState extends State<HoemPage> {
                               ? CircularProgressIndicator()
                               : goToUserPage())),
                 )
-              : pageToDebug()
+              : pageToDebug(),
+        ],
+      )
           // get X// }),
           ),
     );
@@ -147,30 +194,43 @@ class _HoemPageState extends State<HoemPage> {
     );
   }
 
-  Container goToUserPage() {
+  Column goToUserPage() {
     contractController.getCertIds();
-    return Container(
-      child: ElevatedButton(
-          onPressed: () {
-            print(
-                "ther profile is an Inst? ${contractController.isInstituiton}");
-            Get.to(UserHomePage());
-          },
-          child: Text("Go to User page")),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.network(
+            'https://assets1.lottiefiles.com/packages/lf20_fgp8rk11.json'),
+        Container(
+          child: ElevatedButton(
+              onPressed: () {
+                print(
+                    "ther profile is an Inst? ${contractController.isInstituiton}");
+                Get.to(UserHomePage());
+              },
+              child: Text("Go to User page")),
+        ),
+      ],
     );
   }
 
-  Container goToInstitutionPage() {
+  Column goToInstitutionPage() {
     contractController.getRequestedCerts();
-    return Container(
-      child: ElevatedButton(
-          onPressed: () {
-            print(
-                "ther profile is an Inst? ${contractController.isInstituiton}");
+    return Column(
+      children: [
+        Lottie.network(
+            'https://assets9.lottiefiles.com/private_files/lf30_pn4etzyv.json'),
+        Container(
+          child: ElevatedButton(
+              onPressed: () {
+                print(
+                    "ther profile is an Inst? ${contractController.isInstituiton}");
 
-            Get.to(InstHome());
-          },
-          child: Text("Go to Institution page")),
+                Get.to(InstHome());
+              },
+              child: Text("Go to Institution page")),
+        ),
+      ],
     );
   }
 }
