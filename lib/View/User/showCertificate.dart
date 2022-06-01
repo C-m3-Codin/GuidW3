@@ -121,16 +121,16 @@ class _CertificatePageState extends State<CertificatePage> {
         trailing: const Icon(Icons.arrow_downward_rounded),
         children: [
           ListTile(
-            title: Text("name : ${body["patientName"]}"),
+            title: Text("patientName : ${body["patientName"]}"),
           ),
           ListTile(
-            title: Text("name : ${body["analysis"]}"),
+            title: Text("analysis : ${body["analysis"]}"),
           ),
           ListTile(
-            title: Text("name : ${body["prescribtion"]}"),
+            title: Text("prescribtion : ${body["prescribtion"]}"),
           ),
           ListTile(
-            title: Text("name : ${body["Comments"]}"),
+            title: Text("Comments : ${body["Comments"]}"),
           )
         ]);
   }
