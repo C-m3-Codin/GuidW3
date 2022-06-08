@@ -1,5 +1,8 @@
 # GUID
 
+Application to provide certificates that immutable and verified on Blockchain.
+
+
 A user can login using either the private key or email id and password. In case of
 a private key login the user is connected directly to the chain. In case of a email
 id and password login the private key is fetched from Firestore and then the user is
